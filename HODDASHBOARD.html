@@ -1,0 +1,1258 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HOD Dashboard</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --secondary: #10b981;
+      --danger: #ef4444;
+      --text: #1f2937;
+      --text-light: #6b7280;
+      --bg: #f9fafb;
+      --card-bg: #ffffff;
+      --border: #e5e7eb;
+      --sidebar-width: 250px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      color: var(--text);
+      background-color: var(--bg);
+      line-height: 1.5;
+      display: flex;
+      min-height: 100vh;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--card-bg);
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      padding: 1.5rem 0;
+      position: fixed;
+      height: 100vh;
+      z-index: 100;
+      transition: transform 0.3s ease;
+    }
+
+    .sidebar-header {
+      padding: 0 1.5rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 1rem;
+    }
+
+    .sidebar-header h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    .nav-menu {
+      list-style: none;
+    }
+
+    .nav-item {
+      margin-bottom: 0.25rem;
+    }
+
+    .nav-link {
+      display: flex;
+      align-items: center;
+      padding: 0.75rem 1.5rem;
+      color: var(--text-light);
+      text-decoration: none;
+      transition: all 0.2s;
+    }
+
+    .nav-link:hover, .nav-link.active {
+      background-color: var(--bg);
+      color: var(--primary);
+    }
+
+    .nav-link svg {
+      width: 1.25rem;
+      height: 1.25rem;
+      margin-right: 0.75rem;
+    }
+
+    /* Main Content Styles */
+    .main-content {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      padding: 1.5rem;
+      transition: margin-left 0.3s ease;
+    }
+
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+    }
+
+    .dashboard-header h1 {
+      font-size: 1.75rem;
+      font-weight: 700;
+    }
+
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+    }
+
+    .btn svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    .date-display {
+      color: var(--text-light);
+      font-size: 0.875rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-card h3 {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+    }
+
+    .stat-value {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.25rem;
+    }
+
+    .stat-trend {
+      font-size: 0.75rem;
+      display: flex;
+      align-items: center;
+    }
+
+    .stat-trend.up {
+      color: var(--secondary);
+    }
+
+    .stat-trend.down {
+      color: var(--danger);
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+
+    @media (min-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 2fr 1fr;
+      }
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-header h2 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .search-input, .select-input {
+      padding: 0.5rem 1rem;
+      border: 1px solid var(--border);
+      border-radius: 0.375rem;
+      font-size: 0.875rem;
+    }
+
+    .faculty-table-container {
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    th, td {
+      padding: 1rem;
+      text-align: left;
+    }
+
+    th {
+      background-color: var(--bg);
+      font-weight: 600;
+      font-size: 0.875rem;
+      color: var(--text-light);
+    }
+
+    tr {
+      border-bottom: 1px solid var(--border);
+    }
+
+    tr:last-child {
+      border-bottom: none;
+    }
+
+    .performance-badge {
+      display: inline-block;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    .performance-high {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    .performance-medium {
+      background-color: #fef9c3;
+      color: #854d0e;
+    }
+
+    .performance-low {
+      background-color: #fee2e2;
+      color: #991b1b;
+    }
+
+    .action-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--primary);
+      font-weight: 500;
+    }
+
+    .chart-container {
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+      height: 400px;
+    }
+
+    /* New Graphs Section */
+    .graphs-section {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      margin-bottom: 2rem;
+    }
+
+    @media (min-width: 768px) {
+      .graphs-section {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .graph-card {
+      background-color: var(--card-bg);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    .graph-card h3 {
+      font-size: 1rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .graph-container {
+      height: 300px;
+      position: relative;
+    }
+
+    /* Search and Download Container */
+    .search-container {
+      display: flex;
+      gap: 0.5rem;
+      align-items: center;
+    }
+
+    .download-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      background-color: var(--secondary);
+      color: white;
+      border: none;
+      border-radius: 0.375rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .download-btn:hover {
+      background-color: #0d9b6c;
+    }
+
+    .download-btn svg {
+      width: 1rem;
+      height: 1rem;
+    }
+
+    /* Header Profile Styles */
+    .header-profile {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      margin-left: 1rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 0.5rem;
+      transition: background-color 0.2s;
+    }
+
+    .header-profile:hover {
+      background-color: rgba(59, 130, 246, 0.1);
+    }
+
+    .profile-avatar-small {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 1rem;
+      font-weight: 600;
+    }
+
+    .profile-info-small {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .profile-name {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .profile-role {
+      font-size: 0.75rem;
+      color: var(--text-light);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 100;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+
+    .modal-content {
+      background-color: var(--card-bg);
+      margin: 5% auto;
+      padding: 2rem;
+      border-radius: 0.5rem;
+      width: 80%;
+      max-width: 700px;
+      position: relative;
+    }
+
+    .close-btn {
+      position: absolute;
+      right: 1.5rem;
+      top: 1.5rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .faculty-detail {
+      display: grid;
+      grid-template-columns: 120px 1fr;
+      gap: 2rem;
+    }
+
+    .faculty-avatar {
+      width: 120px;
+      height: 120px;
+      border-radius: 50%;
+      background-color: var(--primary);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 3rem;
+      font-weight: 600;
+    }
+
+    .faculty-info h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .faculty-meta {
+      color: var(--text-light);
+      margin-bottom: 1.5rem;
+    }
+
+    .detail-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.5rem;
+    }
+
+    .detail-card {
+      background-color: var(--bg);
+      padding: 1rem;
+      border-radius: 0.5rem;
+    }
+
+    .detail-card h3 {
+      font-size: 0.875rem;
+      color: var(--text-light);
+      margin-bottom: 0.5rem;
+    }
+
+    .detail-card p {
+      font-weight: 600;
+    }
+
+    /* Mobile Menu Button */
+    .menu-toggle {
+      display: none;
+      background: none;
+      border: none;
+      font-size: 1.5rem;
+      cursor: pointer;
+      color: var(--text);
+    }
+
+    /* Responsive Styles */
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      
+      .sidebar.open {
+        transform: translateX(0);
+      }
+      
+      .main-content {
+        margin-left: 0;
+      }
+      
+      .menu-toggle {
+        display: block;
+      }
+      
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .header-profile .profile-info-small {
+        display: none;
+      }
+
+      .search-container {
+        flex-direction: column;
+        align-items: flex-end;
+      }
+    }
+
+    /* Animation for refresh icon */
+    .animate-spin {
+      animation: spin 1s linear infinite;
+    }
+    
+    @keyframes spin {
+      from { transform: rotate(0deg); }
+      to { transform: rotate(360deg); }
+    }
+
+    /* Section visibility control */
+    .content-section {
+      display: none;
+    }
+
+    .content-section.active {
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <!-- Sidebar Navigation -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-header">
+      <h2>HOD Dashboard</h2>
+    </div>
+    <ul class="nav-menu">
+      <li class="nav-item">
+        <a href="#" class="nav-link active" data-section="dashboard">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+          </svg>
+          Dashboard
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" data-section="faculty">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          Faculty
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" data-section="research">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"></path>
+            <path d="M10 2c1 .5 2 2 2 5"></path>
+          </svg>
+          Research
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link" data-section="reports">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+            <polyline points="14 2 14 8 20 8"></polyline>
+            <line x1="16" y1="13" x2="8" y2="13"></line>
+            <line x1="16" y1="17" x2="8" y2="17"></line>
+            <polyline points="10 9 9 9 8 9"></polyline>
+          </svg>
+          Reports
+        </a>
+      </li>
+      
+    </ul>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <header class="dashboard-header">
+      <button class="menu-toggle" id="menu-toggle">☰</button>
+      <h1 id="page-title">Department Dashboard</h1>
+      <div class="header-actions">
+        <div class="date-display" id="current-date"></div>
+        <div class="header-profile" id="profile-btn">
+          <div class="profile-avatar-small">HJ</div>
+          <div class="profile-info-small">
+            <div class="profile-name">Prof. Henry Johnson</div>
+            <div class="profile-role">HOD</div>
+          </div>
+        </div>
+      </div>
+    </header>
+
+    <!-- Dashboard Content -->
+    <div id="dashboard-content" class="content-section active">
+      <div class="stats-grid">
+        <div class="stat-card">
+          <h3>Total Faculty</h3>
+          <div class="stat-value" id="total-faculty">--</div>
+          <div class="stat-trend up">+5% from last year</div>
+        </div>
+        <div class="stat-card">
+          <h3>Avg. Performance</h3>
+          <div class="stat-value" id="avg-performance">--</div>
+          <div class="stat-trend down">-1.2% this semester</div>
+        </div>
+        <div class="stat-card">
+          <h3>Research Papers</h3>
+          <div class="stat-value" id="total-research">--</div>
+          <div class="stat-trend up">+12% this year</div>
+        </div>
+      </div>
+
+      <!-- New Graphs Section -->
+      <section class="graphs-section">
+        <div class="graph-card">
+          <h3>Faculty Performance Distribution</h3>
+          <div class="graph-container">
+            <canvas id="performance-distribution-chart"></canvas>
+          </div>
+        </div>
+        <div class="graph-card">
+          <h3>Department Workload</h3>
+          <div class="graph-container">
+            <canvas id="workload-chart"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <div class="content-grid">
+        <div class="left-column">
+          <section class="research-section">
+            <div class="section-header">
+              <h2>Research Activities</h2>
+              <select id="research-period" class="select-input">
+                <option value="year">This Year</option>
+                <option value="semester">This Semester</option>
+                <option value="all">All Time</option>
+              </select>
+            </div>
+            <div class="chart-container">
+              <canvas id="research-chart"></canvas>
+            </div>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <!-- Faculty Content -->
+    <div id="faculty-content" class="content-section">
+      <section class="faculty-section">
+        <div class="section-header">
+          <h2>Faculty Overview</h2>
+          <div class="search-container">
+            <input type="text" id="faculty-search" placeholder="Search faculty..." class="search-input">
+            <button class="download-btn" id="download-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
+                <polyline points="7 10 12 15 17 10"></polyline>
+                <line x1="12" y1="15" x2="12" y2="3"></line>
+              </svg>
+              Download
+            </button>
+          </div>
+        </div>
+        <div class="faculty-table-container">
+          <table id="faculty-table">
+            <thead>
+              <tr>
+                <th>Name</th>
+                <th>Designation</th>
+                <th>Performance</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody id="faculty-table-body">
+              <!-- Filled by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+    </div>
+
+    <!-- Research Content -->
+    <div id="research-content" class="content-section">
+      <div class="graphs-section">
+        <div class="graph-card">
+          <h3>Research Publications</h3>
+          <div class="graph-container">
+            <canvas id="publications-chart"></canvas>
+          </div>
+        </div>
+        <div class="graph-card">
+          <h3>Conference Participation</h3>
+          <div class="graph-container">
+            <canvas id="conferences-chart"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Reports Content -->
+    <div id="reports-content" class="content-section">
+      <div class="chart-container">
+        <h2>Reports Section</h2>
+        <p>This section will contain various reports.</p>
+      </div>
+    </div>
+
+    <!-- Settings Content -->
+    <div id="settings-content" class="content-section">
+      <div class="chart-container">
+        <h2>Settings Section</h2>
+        <p>This section will contain settings options.</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- Faculty Detail Modal -->
+  <div id="faculty-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div id="faculty-detail-content">
+        <!-- Filled by JavaScript -->
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Modal -->
+  <div id="profile-modal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn">&times;</span>
+      <div class="profile-section">
+        <div class="profile-header">
+          <div class="profile-avatar">HJ</div>
+          <div class="profile-info">
+            <h3>Prof. Henry Johnson</h3>
+            <p>Head of Department</p>
+            <p>Computer Science</p>
+          </div>
+        </div>
+        <div class="profile-details">
+          <div class="detail-item">
+            <span class="detail-label">Email</span>
+            <span class="detail-value">h.johnson@university.edu</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Phone</span>
+            <span class="detail-value">+1 (555) 123-4567</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Tenure</span>
+            <span class="detail-value">8 years</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">Last Login</span>
+            <span class="detail-value">Today, 09:42 AM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Sample Data
+    const facultyData = [
+      { id: 1, name: "Dr. Sarah Johnson", designation: "Professor", email: "s.johnson@uni.edu", performance: 4.8, department: "Computer Science", phone: "+1 (555) 123-4567", joinDate: "2015-08-15", research: 12, teachingScore: 4.9, adminScore: 4.5, teachingHours: 12 },
+      { id: 2, name: "Prof. Michael Chen", designation: "Associate Professor", email: "m.chen@uni.edu", performance: 4.2, department: "Mathematics", phone: "+1 (555) 234-5678", joinDate: "2018-03-22", research: 8, teachingScore: 4.3, adminScore: 3.9, teachingHours: 15 },
+      { id: 3, name: "Dr. Emily Wilson", designation: "Assistant Professor", email: "e.wilson@uni.edu", performance: 3.9, department: "Physics", phone: "+1 (555) 345-6789", joinDate: "2020-01-10", research: 5, teachingScore: 4.1, adminScore: 3.5, teachingHours: 18 },
+      { id: 4, name: "Prof. David Brown", designation: "Professor", email: "d.brown@uni.edu", performance: 4.5, department: "Chemistry", phone: "+1 (555) 456-7890", joinDate: "2012-09-05", research: 18, teachingScore: 4.6, adminScore: 4.3, teachingHours: 10 },
+      { id: 5, name: "Dr. Jessica Lee", designation: "Associate Professor", email: "j.lee@uni.edu", performance: 4.1, department: "Biology", phone: "+1 (555) 567-8901", joinDate: "2017-11-18", research: 9, teachingScore: 4.2, adminScore: 3.8, teachingHours: 14 }
+    ];
+
+    // Research Data
+    const researchData = {
+      year: {
+        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        papers: [2, 3, 1, 4, 2, 3, 1, 2, 3, 4, 2, 1],
+        conferences: [1, 2, 1, 1, 3, 2, 1, 1, 2, 3, 1, 0]
+      },
+      semester: {
+        labels: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6'],
+        papers: [1, 2, 1, 3, 2, 1],
+        conferences: [0, 1, 1, 0, 2, 1]
+      },
+      all: {
+        labels: ['2020', '2021', '2022', '2023', '2024'],
+        papers: [8, 12, 15, 18, 20],
+        conferences: [5, 7, 6, 9, 10]
+      }
+    };
+
+    // DOM Elements
+    const currentDateEl = document.getElementById('current-date');
+    const totalFacultyEl = document.getElementById('total-faculty');
+    const avgPerformanceEl = document.getElementById('avg-performance');
+    const totalResearchEl = document.getElementById('total-research');
+    const facultyTableBody = document.getElementById('faculty-table-body');
+    const facultySearch = document.getElementById('faculty-search');
+    const researchPeriod = document.getElementById('research-period');
+    const facultyModal = document.getElementById('faculty-modal');
+    const profileModal = document.getElementById('profile-modal');
+    const closeBtns = document.querySelectorAll('.close-btn');
+    const facultyDetailContent = document.getElementById('faculty-detail-content');
+    const menuToggle = document.getElementById('menu-toggle');
+    const sidebar = document.getElementById('sidebar');
+    const profileBtn = document.getElementById('profile-btn');
+    const downloadBtn = document.getElementById('download-btn');
+    const pageTitle = document.getElementById('page-title');
+    const navLinks = document.querySelectorAll('.nav-link');
+    const contentSections = document.querySelectorAll('.content-section');
+
+    // Chart Instances
+    let performanceDistributionChart;
+    let workloadChart;
+    let researchChart;
+    let publicationsChart;
+    let conferencesChart;
+
+    // Track current filtered data
+    let currentFilteredData = [...facultyData];
+
+    // Initialize Dashboard
+    function initDashboard() {
+      // Set current date
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      currentDateEl.textContent = new Date().toLocaleDateString('en-US', options);
+      
+      // Set stats
+      totalFacultyEl.textContent = facultyData.length;
+      const avgPerf = facultyData.reduce((sum, faculty) => sum + faculty.performance, 0) / facultyData.length;
+      avgPerformanceEl.textContent = avgPerf.toFixed(1);
+      const totalResearch = facultyData.reduce((sum, faculty) => sum + faculty.research, 0);
+      totalResearchEl.textContent = totalResearch;
+      
+      // Render faculty table
+      renderFacultyTable(facultyData);
+      
+      // Initialize charts
+      initPerformanceDistributionChart();
+      initWorkloadChart();
+      initResearchChart('year');
+      initPublicationsChart();
+      initConferencesChart();
+      
+      // Set up event listeners
+      setupEventListeners();
+    }
+
+    // Initialize Performance Distribution Chart
+    function initPerformanceDistributionChart() {
+      const ctx = document.getElementById('performance-distribution-chart').getContext('2d');
+      
+      // Group faculty by performance ranges
+      const performanceRanges = {
+        '4.5-5.0': facultyData.filter(f => f.performance >= 4.5).length,
+        '4.0-4.4': facultyData.filter(f => f.performance >= 4.0 && f.performance < 4.5).length,
+        '3.5-3.9': facultyData.filter(f => f.performance >= 3.5 && f.performance < 4.0).length,
+        'Below 3.5': facultyData.filter(f => f.performance < 3.5).length
+      };
+      
+      performanceDistributionChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: Object.keys(performanceRanges),
+          datasets: [{
+            label: 'Number of Faculty',
+            data: Object.values(performanceRanges),
+            backgroundColor: [
+              'rgba(16, 185, 129, 0.7)',
+              'rgba(101, 163, 13, 0.7)',
+              'rgba(234, 179, 8, 0.7)',
+              'rgba(239, 68, 68, 0.7)'
+            ],
+            borderColor: [
+              'rgba(16, 185, 129, 1)',
+              'rgba(101, 163, 13, 1)',
+              'rgba(234, 179, 8, 1)',
+              'rgba(239, 68, 68, 1)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
+            }
+          },
+          plugins: {
+            legend: {
+              display: false
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize Workload Chart
+    function initWorkloadChart() {
+      const ctx = document.getElementById('workload-chart').getContext('2d');
+      
+      // Prepare data for workload chart
+      const facultyNames = facultyData.map(f => f.name.split(' ')[1]); // Last names only
+      const teachingHours = facultyData.map(f => f.teachingHours);
+      const researchCount = facultyData.map(f => f.research);
+      
+      workloadChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: facultyNames,
+          datasets: [
+            {
+              label: 'Teaching Hours',
+              data: teachingHours,
+              backgroundColor: 'rgba(59, 130, 246, 0.2)',
+              borderColor: 'rgba(59, 130, 246, 1)',
+              borderWidth: 2,
+              tension: 0.1,
+              fill: true
+            },
+            {
+              label: 'Research Papers',
+              data: researchCount,
+              backgroundColor: 'rgba(16, 185, 129, 0.2)',
+              borderColor: 'rgba(16, 185, 129, 1)',
+              borderWidth: 2,
+              tension: 0.1,
+              fill: true
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize Research Chart
+    function initResearchChart(period) {
+      const ctx = document.getElementById('research-chart').getContext('2d');
+      const data = researchData[period];
+      
+      if (researchChart) {
+        researchChart.destroy();
+      }
+      
+      researchChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels: data.labels,
+          datasets: [
+            {
+              label: 'Research Papers',
+              data: data.papers,
+              backgroundColor: 'rgba(59, 130, 246, 0.7)',
+              borderColor: 'rgba(59, 130, 246, 1)',
+              borderWidth: 1
+            },
+            {
+              label: 'Conference Papers',
+              data: data.conferences,
+              backgroundColor: 'rgba(16, 185, 129, 0.7)',
+              borderColor: 'rgba(16, 185, 129, 1)',
+              borderWidth: 1
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true
+            }
+          }
+        }
+      });
+    }
+
+    // Initialize Publications Chart
+    function initPublicationsChart() {
+      const ctx = document.getElementById('publications-chart').getContext('2d');
+      
+      publicationsChart = new Chart(ctx, {
+        type: 'doughnut',
+        data: {
+          labels: facultyData.map(f => f.name.split(' ')[1]),
+          datasets: [{
+            label: 'Research Publications',
+            data: facultyData.map(f => f.research),
+            backgroundColor: [
+              'rgba(59, 130, 246, 0.7)',
+              'rgba(16, 185, 129, 0.7)',
+              'rgba(234, 179, 8, 0.7)',
+              'rgba(239, 68, 68, 0.7)',
+              'rgba(139, 92, 246, 0.7)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+
+    // Initialize Conferences Chart
+    function initConferencesChart() {
+      const ctx = document.getElementById('conferences-chart').getContext('2d');
+      
+      // Sample conference data (not in original faculty data)
+      const conferenceData = [5, 7, 3, 9, 6];
+      
+      conferencesChart = new Chart(ctx, {
+        type: 'polarArea',
+        data: {
+          labels: facultyData.map(f => f.name.split(' ')[1]),
+          datasets: [{
+            label: 'Conference Participation',
+            data: conferenceData,
+            backgroundColor: [
+              'rgba(59, 130, 246, 0.7)',
+              'rgba(16, 185, 129, 0.7)',
+              'rgba(234, 179, 8, 0.7)',
+              'rgba(239, 68, 68, 0.7)',
+              'rgba(139, 92, 246, 0.7)'
+            ],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false
+        }
+      });
+    }
+
+    // Render Faculty Table
+    function renderFacultyTable(faculty) {
+      facultyTableBody.innerHTML = '';
+      currentFilteredData = [...faculty]; // Update current filtered data
+      
+      faculty.forEach(f => {
+        const row = document.createElement('tr');
+        
+        // Determine performance class
+        let perfClass = 'performance-medium';
+        if (f.performance >= 4.5) perfClass = 'performance-high';
+        else if (f.performance < 3.5) perfClass = 'performance-low';
+        
+        row.innerHTML = `
+          <td>${f.name}</td>
+          <td>${f.designation}</td>
+          <td><span class="performance-badge ${perfClass}">${f.performance.toFixed(1)}</span></td>
+          <td><button class="action-btn" data-id="${f.id}">View Details</button></td>
+        `;
+        
+        facultyTableBody.appendChild(row);
+      });
+      
+      // Add event listeners to detail buttons
+      document.querySelectorAll('.action-btn').forEach(btn => {
+        btn.addEventListener('click', () => showFacultyDetails(btn.dataset.id));
+      });
+    }
+
+    // Function to convert filtered data to CSV
+    function convertToCSV(filteredData) {
+      const headers = ["Name", "Designation", "Email", "Performance", "Department", "Phone", "Join Date", "Research Papers", "Teaching Score", "Admin Score", "Teaching Hours"];
+      
+      const rows = filteredData.map(faculty => [
+        "${faculty.name}",
+        "${faculty.designation}",
+        "${faculty.email}",
+        faculty.performance,
+        "${faculty.department}",
+        "${faculty.phone}",
+        "${new Date(faculty.joinDate).toLocaleDateString()}",
+        faculty.research,
+        faculty.teachingScore,
+        faculty.adminScore,
+        faculty.teachingHours
+      ]);
+      
+      return [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
+    }
+
+    // Function to download CSV
+    function downloadCSV(csvData, filename = 'faculty_data.csv') {
+      const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      const url = URL.createObjectURL(blob);
+      
+      link.setAttribute('href', url);
+      link.setAttribute('download', filename);
+      link.style.visibility = 'hidden';
+      
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    // Show Faculty Details
+    function showFacultyDetails(id) {
+      const faculty = facultyData.find(f => f.id === parseInt(id));
+      
+      if (!faculty) return;
+      
+      const initials = faculty.name.split(' ').map(n => n[0]).join('');
+      
+      facultyDetailContent.innerHTML = `
+        <div class="faculty-detail">
+          <div class="faculty-avatar">${initials}</div>
+          <div class="faculty-info">
+            <h2>${faculty.name}</h2>
+            <div class="faculty-meta">
+              ${faculty.designation} | ${faculty.department}<br>
+              ${faculty.email} | ${faculty.phone}
+            </div>
+            <div class="detail-grid">
+              <div class="detail-card">
+                <h3>Joined</h3>
+                <p>${new Date(faculty.joinDate).toLocaleDateString()}</p>
+              </div>
+              <div class="detail-card">
+                <h3>Research Papers</h3>
+                <p>${faculty.research}</p>
+              </div>
+              <div class="detail-card">
+                <h3>Teaching Score</h3>
+                <p>${faculty.teachingScore.toFixed(1)}/5.0</p>
+              </div>
+              <div class="detail-card">
+                <h3>Admin Score</h3>
+                <p>${faculty.adminScore.toFixed(1)}/5.0</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+      
+      facultyModal.style.display = 'block';
+    }
+
+    // Show Profile Details
+    function showProfileDetails() {
+      profileModal.style.display = 'block';
+    }
+
+    // Close Modal
+    function closeModal() {
+      facultyModal.style.display = 'none';
+      profileModal.style.display = 'none';
+    }
+
+    // Switch between content sections
+    function switchContent(sectionId) {
+      contentSections.forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      document.getElementById(sectionId + '-content').classList.add('active');
+      pageTitle.textContent = sectionId.charAt(0).toUpperCase() + sectionId.slice(1) + (sectionId === 'dashboard' ? ' Dashboard' : '');
+    }
+
+    // Set up Event Listeners
+    function setupEventListeners() {
+      // Faculty search
+      facultySearch.addEventListener('input', (e) => {
+        const searchTerm = e.target.value.toLowerCase();
+        currentFilteredData = facultyData.filter(f => 
+          f.name.toLowerCase().includes(searchTerm) || 
+          f.designation.toLowerCase().includes(searchTerm) ||
+          f.department.toLowerCase().includes(searchTerm)
+        );
+        renderFacultyTable(currentFilteredData);
+      });
+      
+      // Download button click
+      downloadBtn.addEventListener('click', () => {
+        const csvData = convertToCSV(currentFilteredData);
+        downloadCSV(csvData);
+      });
+      
+      // Research period change
+      researchPeriod.addEventListener('change', (e) => {
+        initResearchChart(e.target.value);
+      });
+      
+      // Close modals
+      closeBtns.forEach(btn => {
+        btn.addEventListener('click', closeModal);
+      });
+      
+      // Close modal when clicking outside
+      window.addEventListener('click', (e) => {
+        if (e.target.classList.contains('modal')) {
+          closeModal();
+        }
+      });
+
+      // Mobile menu toggle
+      menuToggle.addEventListener('click', () => {
+        sidebar.classList.toggle('open');
+      });
+
+      // Profile button click
+      profileBtn.addEventListener('click', showProfileDetails);
+
+      // Navigation links
+      navLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          // Remove active class from all links
+          navLinks.forEach(l => l.classList.remove('active'));
+          // Add active class to clicked link
+          this.classList.add('active');
+          
+          const section = this.dataset.section;
+          switchContent(section);
+        });
+      });
+    }
+
+    // Initialize the dashboard when DOM is loaded
+    document.addEventListener('DOMContentLoaded', initDashboard);
+  </script>
+</body>
+</html>
+
+
+

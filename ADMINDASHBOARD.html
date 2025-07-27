@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Admin Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2c3e50;
+      --light-color: #ecf0f1;
+      --dark-color: #34495e;
+      --success-color: #2ecc71;
+      --warning-color: #f39c12;
+      --danger-color: #e74c3c;
+    }
+    
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fa;
+      color: #333;
+    }
+    
+    .sidebar {
+      width: 250px;
+      background: var(--secondary-color);
+      color: white;
+      height: 100vh;
+      position: fixed;
+      padding: 20px 0;
+      transition: all 0.3s;
+      z-index: 1000;
+    }
+    
+    .sidebar h2 {
+      text-align: center;
+      margin-bottom: 30px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .sidebar ul {
+      list-style: none;
+      padding: 0;
+    }
+    
+    .sidebar li {
+      padding: 15px 25px;
+      cursor: pointer;
+      transition: all 0.3s;
+      display: flex;
+      align-items: center;
+    }
+    
+    .sidebar li:hover {
+      background: var(--dark-color);
+    }
+    
+    .sidebar li.active {
+      background: var(--primary-color);
+    }
+    
+    .sidebar li i {
+      margin-right: 10px;
+      width: 20px;
+      text-align: center;
+    }
+    
+    #logoutBtn {
+      position: absolute;
+      bottom: 20px;
+      width: 100%;
+    }
+    
+    #logoutBtn:hover {
+      background: var(--danger-color);
+    }
+    
+    .main-content {
+      margin-left: 250px;
+      padding: 20px;
+      transition: all 0.3s;
+    }
+    
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 20px;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      border-radius: 8px;
+    }
+    
+    .search-container {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+    
+    .search-box input {
+      width: 100%;
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+    }
+    
+    .department-filter select {
+      padding: 8px 12px;
+      border-radius: 4px;
+      border: 1px solid #ddd;
+      background: white;
+    }
+    
+    .card-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    
+    .card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s;
+    }
+    
+    .card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .card-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 15px;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+    }
+    
+    .card-header i {
+      margin-right: 10px;
+    }
+    
+    .card-body {
+      padding: 15px;
+    }
+    
+    .faculty-item {
+      display: flex;
+      align-items: center;
+      padding: 10px 0;
+      border-bottom: 1px solid #eee;
+      cursor: pointer;
+    }
+    
+    .faculty-item img {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-right: 15px;
+    }
+    
+    .faculty-info h4 {
+      margin: 0 0 5px 0;
+    }
+    
+    .faculty-info p {
+      margin: 0;
+      color: #666;
+      font-size: 0.9em;
+    }
+    
+    .document-items {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+      gap: 15px;
+      margin-top: 10px;
+    }
+
+    .document-item {
+      background: #f9f9f9;
+      padding: 15px;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .document-item i {
+      color: var(--primary-color);
+      font-size: 20px;
+    }
+
+    .document-item a {
+      margin-left: auto;
+      color: var(--primary-color);
+      text-decoration: none;
+    }
+
+    .document-item a:hover {
+      text-decoration: underline;
+    }
+    .dashboard-stats
+    {
+      margin-bottom: 30px;
+    }
+    .stats-container {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+    }
+    
+    .stat-card {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .stat-card .value {
+      font-size: 2em;
+      font-weight: bold;
+      margin: 10px 0;
+      color: var(--primary-color);
+    }
+    
+    .stat-card .label {
+      color: #666;
+    }
+    .dashboard-charts{
+      margin-top:20px;
+    }
+    .chart-container {
+      background: white;
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+    
+    .chart-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin-bottom: 20px;
+    }
+    
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.5);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .modal-content {
+      background: white;
+      width: 80%;
+      max-width: 800px;
+      max-height: 90vh;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+    }
+    
+    .modal-header {
+      padding: 15px 20px;
+      border-bottom: 1px solid #eee;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .modal-header h3 {
+      margin: 0;
+    }
+    
+    .modal-body {
+      padding: 20px;
+      overflow-y: auto;
+      max-height: calc(90vh - 100px);
+    }
+    
+    .close-modal {
+      background: none;
+      border: none;
+      font-size: 1.5em;
+      cursor: pointer;
+    }
+    
+    .faculty-details {
+      display: flex;
+      gap: 20px;
+    }
+    
+    .faculty-photo img {
+      width: 200px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    
+    .faculty-data {
+      flex: 1;
+    }
+    
+    .detail-row {
+      margin-bottom: 15px;
+    }
+    
+    .detail-label {
+      font-weight: bold;
+      margin-bottom: 5px;
+      color: var(--secondary-color);
+    }
+    
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 70px;
+        overflow: hidden;
+      }
+      
+      .sidebar li span {
+        display: none;
+      }
+      
+      .main-content {
+        margin-left: 70px;
+      }
+      
+      .stats-container {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      
+      .chart-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .faculty-details {
+        flex-direction: column;
+      }
+      
+      .faculty-photo {
+        text-align: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="sidebar">
+    <h2>Admin Dashboard</h2>
+    <ul>
+      <li class="active" data-section="dashboard"><i class="fas fa-tachometer-alt"></i> <span>Dashboard</span></li>
+      <li data-section="departments"><i class="fas fa-building"></i> <span>Departments</span></li>
+      <li data-section="faculty"><i class="fas fa-users"></i> <span>Faculty List</span></li>
+      <li data-section="certificates"><i class="fas fa-certificate"></i> <span>Certificates</span></li>
+      <li data-section="awards"><i class="fas fa-trophy"></i> <span>Awards</span></li>
+      <li data-section="research"><i class="fas fa-file-alt"></i> <span>Research Papers</span></li>
+      <li id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></li>
+    </ul>
+  </div>
+
+  <div class="main-content">
+    <!-- Dashboard Section -->
+    <div id="dashboard-section" class="section-content">
+      <div class="header">
+        <h3><i class="fas fa-tachometer-alt"></i> Dashboard Overview</h3>
+        <div class="date-display" id="currentDate"></div>
+      </div>
+      <div class="dashboard-stats">
+      <div class="stats-container">
+        <div class="stat-card">
+          <i class="fas fa-building"></i>
+          <div class="value" id="deptCount">0</div>
+          <div class="label">Departments</div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-users"></i>
+          <div class="value" id="facultyCount">0</div>
+          <div class="label">Faculty Members</div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-certificate"></i>
+          <div class="value" id="certCount">0</div>
+          <div class="label">Certificates</div>
+        </div>
+        <div class="stat-card">
+          <i class="fas fa-trophy"></i>
+          <div class="value" id="awardCount">0</div>
+          <div class="label">Awards</div>
+        </div>
+      </div>
+      </div>
+      <div class=""dashboard-charts">
+    
+      <div class="chart-row">
+        <div class="chart-container">
+          <h3 class="chart-title">Faculty Distribution by Department</h3>
+          <canvas id="departmentChart"></canvas>
+        </div>
+        <div class="chart-container">
+          <h3 class="chart-title">Certificates & Awards</h3>
+          <canvas id="certAwardChart"></canvas>
+        </div>
+      </div>
+    </div>
+    </div>
+    
+    <!-- Departments Section -->
+    <div id="departments-section" class="section-content" style="display:none;">
+      <div class="header">
+        <h3><i class="fas fa-building"></i> Departments</h3>
+      </div>
+      
+      <div class="card-container">
+        <div class="card department-card" data-dept="CSE">
+          <div class="card-body">
+            <div class="icon"><i class="fas fa-laptop-code"></i></div>
+            <h3>Computer Science</h3>
+            <div class="count" id="cseCount">0 Faculty</div>
+          </div>
+        </div>
+        
+        <div class="card department-card" data-dept="CSM">
+          <div class="card-body">
+            <div class="icon"><i class="fas fa-mobile-alt"></i></div>
+            <h3>Computer Science (Mobile)</h3>
+            <div class="count" id="csmCount">0 Faculty</div>
+          </div>
+        </div>
+        
+        <div class="card department-card" data-dept="CSD">
+          <div class="card-body">
+            <div class="icon"><i class="fas fa-database"></i></div>
+            <h3>Computer Science (Data)</h3>
+            <div class="count" id="csdCount">0 Faculty</div>
+          </div>
+        </div>
+        
+        <div class="card department-card" data-dept="IT">
+          <div class="card-body">
+            <div class="icon"><i class="fas fa-network-wired"></i></div>
+            <h3>Information Technology</h3>
+            <div class="count" id="itCount">0 Faculty</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Faculty List Section -->
+    <div id="faculty-section" class="section-content" style="display:none;">
+      <div class="header">
+        <h3><i class="fas fa-users"></i> Faculty Members</h3>
+        <div class="search-container">
+          <div class="department-filter">
+            <select id="facultyDeptFilter">
+              <option value="">All Departments</option>
+              <option value="CSE">CSE</option>
+              <option value="CSM">CSM</option>
+              <option value="CSD">CSD</option>
+              <option value="IT">IT</option>
+            </select>
+          </div>
+          <div class="search-box">
+            <input type="text" id="facultySearch" placeholder="Search by name or email...">
+          </div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-list"></i> Faculty List
+        </div>
+        <div class="card-body" id="facultyList">
+          <!-- Faculty will be loaded here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Certificates Section -->
+    <div id="certificates-section" class="section-content" style="display:none;">
+      <div class="header">
+        <h3><i class="fas fa-certificate"></i> Faculty Certificates</h3>
+        <div class="department-filter">
+          <select id="certDeptFilter">
+            <option value="">All Departments</option>
+            <option value="CSE">CSE</option>
+            <option value="CSM">CSM</option>
+            <option value="CSD">CSD</option>
+            <option value="IT">IT</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-certificate"></i> Certificates
+        </div>
+        <div class="card-body" id="certificatesList">
+          <!-- Certificates will be loaded here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Awards Section -->
+    <div id="awards-section" class="section-content" style="display:none;">
+      <div class="header">
+        <h3><i class="fas fa-trophy"></i> Faculty Awards</h3>
+        <div class="department-filter">
+          <select id="awardDeptFilter">
+            <option value="">All Departments</option>
+            <option value="CSE">CSE</option>
+            <option value="CSM">CSM</option>
+            <option value="CSD">CSD</option>
+            <option value="IT">IT</option>
+          </select>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-trophy"></i> Awards
+        </div>
+        <div class="card-body" id="awardsList">
+          <!-- Awards will be loaded here -->
+        </div>
+      </div>
+    </div>
+    
+    <!-- Research Papers Section -->
+    <!-- Research Papers Section -->
+<div id="research-section" class="section-content" style="display:none;">
+  <div class="header">
+    <h3><i class="fas fa-file-alt"></i> Faculty Research Papers</h3>
+    <div class="department-filter">
+      <select id="researchDeptFilter">
+        <option value="">All Departments</option>
+        <option value="CSE">CSE</option>
+        <option value="CSM">CSM</option>
+        <option value="CSD">CSD</option>
+        <option value="IT">IT</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="card">
+    <div class="card-header">
+      <i class="fas fa-file-alt"></i> Research Papers
+    </div>
+    <div class="card-body" id="researchPapersList">
+      <!-- Research papers will be loaded here -->
+    </div>
+  </div>
+</div>
+      
+    </div>
+  </div>
+  
+  <!-- Faculty Details Modal -->
+  <div class="modal" id="facultyModal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Faculty Details</h3>
+        <button class="close-modal">&times;</button>
+      </div>
+      <div class="modal-body" id="facultyDetailsContent">
+        <!-- Faculty details will be loaded here -->
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // DOM Elements
+    const sidebarLinks = document.querySelectorAll('.sidebar li:not(#logoutBtn)');
+    const sectionContents = document.querySelectorAll('.section-content');
+    const departmentCards = document.querySelectorAll('.department-card');
+    const facultyModal = document.getElementById('facultyModal');
+    const closeModalBtn = document.querySelector('.close-modal');
+    const logoutBtn = document.getElementById('logoutBtn');
+    
+    // Global faculty data
+    let facultyData = [];
+    
+    // Initialize Charts
+    function initCharts(facultyData) {
+      // Count faculty by department
+      const deptCounts = { CSE: 0, CSM: 0, CSD: 0, IT: 0 };
+      
+      facultyData.forEach(faculty => {
+        if (faculty.degBranch) {
+          const branch = faculty.degBranch.toUpperCase();
+          if (branch === 'CSE') deptCounts.CSE++;
+          else if (branch === 'CSM') deptCounts.CSM++;
+          else if (branch === 'CSD') deptCounts.CSD++;
+          else if (branch === 'IT') deptCounts.IT++;
+        }
+      });
+      
+      // Update department counts
+      document.getElementById('cseCount').textContent = `${deptCounts.CSE} Faculty`;
+      document.getElementById('csmCount').textContent = `${deptCounts.CSM} Faculty`;
+      document.getElementById('csdCount').textContent = `${deptCounts.CSD} Faculty`;
+      document.getElementById('itCount').textContent = `${deptCounts.IT} Faculty`;
+      document.getElementById('deptCount').textContent = 4;
+      document.getElementById('facultyCount').textContent = facultyData.length;
+      
+      // Count certificates and awards
+      let certCount = 0;
+      let awardCount = 0;
+      
+      facultyData.forEach(faculty => {
+        if (faculty.certsPaths) certCount += faculty.certsPaths.length;
+        if (faculty.awardsCertPaths) awardCount += faculty.awardsCertPaths.length;
+      });
+      
+      document.getElementById('certCount').textContent = certCount;
+      document.getElementById('awardCount').textContent = awardCount;
+      
+      // Department Distribution Pie Chart
+      const deptCtx = document.getElementById('departmentChart').getContext('2d');
+      new Chart(deptCtx, {
+        type: 'pie',
+        data: {
+          labels: ['CSE', 'CSM', 'CSD', 'IT'],
+          datasets: [{
+            data: [deptCounts.CSE, deptCounts.CSM, deptCounts.CSD, deptCounts.IT],
+            backgroundColor: ['#3498db', '#2ecc71', '#e74c3c', '#f39c12'],
+            borderWidth: 1
+          }]
+        },
+        options: {
+          responsive: true,
+          plugins: {
+            legend: { position: 'right' }
+          }
+        }
+      });
+      
+      // Certificates vs Awards Bar Chart
+      const certAwardCtx = document.getElementById('certAwardChart').getContext('2d');
+      new Chart(certAwardCtx, {
+        type: 'bar',
+        data: {
+          labels: ['CSE', 'CSM', 'CSD', 'IT'],
+          datasets: [
+            {
+              label: 'Certificates',
+              data: [
+                facultyData.filter(f => f.degBranch && f.degBranch.toUpperCase() === 'CSE' && f.certsPaths).reduce((sum, f) => sum + f.certsPaths.length, 0),
+                facultyData.filter(f => f.degBranch && f.degBranch.toUpperCase() === 'CSM' && f.certsPaths).reduce((sum, f) => sum + f.certsPaths.length, 0),
+                facultyData.filter(f => f.degBranch && f.degBranch.toUpperCase() === 'CSD' && f.certsPaths).reduce((sum, f) => sum + f.certsPaths.length, 0),
+                facultyData.filter(f => f.degBranch && f.degBranch.toUpperCase() === 'IT' && f.certsPaths).reduce((sum, f) => sum + f.certsPaths.length, 0)
+              ],
+              backgroundColor: '#3498db'
+            },
+            {
+              label: 'Awards',
+              data: [
+                facultyData.filter(f => f.degBranch && f.degBranch.toUpperCase() === 'CSE' && f.awardsCertPaths).reduce((sum, f) => sum + f.awardsCertPaths.length, 0),
+                facultyData.filter(f => f.degBranch && f.degBranch.toUpperCase() === 'CSM' && f.awardsCertPaths).reduce((sum, f) => sum + f.awardsCertPaths.length, 0),
+                facultyData.filter(f => f.degBranch && f.degBranch.toUpperCase() === 'CSD' && f.awardsCertPaths).reduce((sum, f) => sum + f.awardsCertPaths.length, 0),
+                facultyData.filter(f => f.degBranch && f.degBranch.toUpperCase() === 'IT' && f.awardsCertPaths).reduce((sum, f) => sum + f.awardsCertPaths.length, 0)
+              ],
+              backgroundColor: '#f39c12'
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+    
+    // Set current date
+    function setCurrentDate() {
+      const now = new Date();
+      document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', { 
+        year: 'numeric', month: 'long', day: 'numeric' 
+      });
+    }
+    
+    // Filter Faculty
+    function filterFaculty() {
+      const dept = document.getElementById('facultyDeptFilter').value;
+      const searchTerm = document.getElementById('facultySearch').value.toLowerCase();
+      const facultyListContainer = document.getElementById('facultyList');
+      
+      facultyListContainer.innerHTML = '';
+      
+      const filteredFaculty = facultyData.filter(f => {
+        const matchesDept = !dept || (f.degBranch && f.degBranch.toUpperCase() === dept);
+        const matchesSearch = !searchTerm || 
+          (f.name && f.name.toLowerCase().includes(searchTerm)) || 
+          (f.email && f.email.toLowerCase().includes(searchTerm));
+        return matchesDept && matchesSearch;
+      });
+      
+      if (filteredFaculty.length === 0) {
+        facultyListContainer.innerHTML = '<p>No faculty members found matching your criteria.</p>';
+        return;
+      }
+      
+      filteredFaculty.forEach((faculty, index) => {
+        const facultyItem = document.createElement('div');
+        facultyItem.className = 'faculty-item';
+        facultyItem.innerHTML = `
+       
+          <div class="faculty-info">
+            <h4>${faculty.name}</h4>
+            <p>${faculty.email} • ${faculty.degBranch || 'Not specified'}</p>
+          </div>
+        `;
+        facultyItem.addEventListener('click', () => showFacultyDetails(index));
+        facultyListContainer.appendChild(facultyItem);
+      });
+    }
+    
+    // Filter Certificates
+    async function filterCertificates() {
+      const dept = document.getElementById('certDeptFilter').value;
+      const certificatesContainer = document.getElementById('certificatesList');
+      certificatesContainer.innerHTML = '<p>Loading certificates...</p>';
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/faculty-documents?department=${dept}`);
+        const data = await response.json();
+        
+        if (data.length === 0) {
+          certificatesContainer.innerHTML = '<p>No certificates found for this department.</p>';
+          return;
+        }
+
+        let html = '';
+        data.forEach(faculty => {
+          if (faculty.certsPaths && faculty.certsPaths.length > 0) {
+            html += `
+            <div class="faculty-document-group">
+              <h4>${faculty.name} (${faculty.degBranch})</h4>
+              <div class="document-items">
+                ${faculty.certsPaths.map((path, i) => `
+                <div class="document-item">
+                  <i class="fas fa-file-pdf"></i>
+                  <span>Certificate ${i+1}</span>
+                  <a href="http://localhost:5000/${path}" target="_blank">View</a>
+                </div>`).join('')}
+              </div>
+            </div>`;
+          }
+        });
+
+        certificatesContainer.innerHTML = html || '<p>No certificates found for this department.</p>';
+      } catch (error) {
+        certificatesContainer.innerHTML = '<p>Error loading certificates. Please try again.</p>';
+        console.error("Error loading certificates:", error);
+      }
+    }
+    
+    // Filter Awards
+    async function filterAwards() {
+      const dept = document.getElementById('awardDeptFilter').value;
+      const awardsContainer = document.getElementById('awardsList');
+      awardsContainer.innerHTML = '<p>Loading awards...</p>';
+
+      try {
+        const response = await fetch(`http://localhost:5000/api/faculty-documents?department=${dept}`);
+        const data = await response.json();
+        
+        if (data.length === 0) {
+          awardsContainer.innerHTML = '<p>No awards found for this department.</p>';
+          return;
+        }
+
+        let html = '';
+        data.forEach(faculty => {
+          if (faculty.awardsCertPaths && faculty.awardsCertPaths.length > 0) {
+            html += `
+              <div class="faculty-document-group">
+                <h4>${faculty.name} (${faculty.degBranch})</h4>
+                <div class="document-items">
+                  ${faculty.awardsCertPaths.map((path, i) => `
+                  <div class="document-item">
+                    <i class="fas fa-trophy"></i>
+                    <span>Award ${i+1}</span>
+                    <a href="http://localhost:5000/${path}" target="_blank">View</a>
+                  </div>`).join('')}
+                </div>
+              </div>`;
+          }
+        });
+
+        awardsContainer.innerHTML = html || '<p>No awards found for this department.</p>';
+      } catch (error) {
+        awardsContainer.innerHTML = '<p>Error loading awards. Please try again.</p>';
+        console.error("Error loading awards:", error);
+      }
+    }
+    
+    // Filter Research Papers
+    async function filterResearchPapers() {
+  const dept = document.getElementById('researchDeptFilter').value;
+  const researchContainer = document.getElementById('researchPapersList');
+  researchContainer.innerHTML = '<p>Loading research papers...</p>';
+
+  try {
+    const response = await fetch(`http://localhost:5000/api/research-papers?department=${dept}`);
+    const data = await response.json();
+    
+    if (data.length === 0) {
+      researchContainer.innerHTML = '<p>No research papers found for this department.</p>';
+      return;
+    }
+
+    let html = '';
+    data.forEach(faculty => {
+      if (faculty.researchPapers && faculty.researchPapers.length > 0) {
+        html += `
+          <div class="faculty-document-group">
+            <h4>${faculty.name} (${faculty.degBranch})</h4>
+            <div class="document-items">
+              ${faculty.researchPapers.map((path, i) => `
+              <div class="document-item">
+                <i class="fas fa-file-pdf"></i>
+                <span>Research Paper ${i+1}</span>
+                <a href="http://localhost:5000/${path}" target="_blank">View</a>
+              </div>`).join('')}
+            </div>
+          </div>`;
+      }
+    });
+
+    researchContainer.innerHTML = html || '<p>No research papers found for this department.</p>';
+  } catch (error) {
+    console.error("Error loading research papers:", error);
+    researchContainer.innerHTML = '<p>Error loading research papers. Please try again.</p>';
+  }
+}
+    // Show Faculty Details
+    async function showFacultyDetails(id) {
+  try {
+    const faculty = facultyData[id];
+    if (!faculty) return;
+    
+    const modalContent = document.getElementById('facultyDetailsContent');
+    modalContent.innerHTML = `
+      <div class="faculty-details">
+        
+        <div class="faculty-data">
+          <h2>${faculty.name}</h2>
+          <p><strong>${faculty.degBranch || 'Not specified'}</strong></p>
+          <div class="detail-row">
+            <div class="detail-label">Contact Information</div>
+            <p>Email: ${faculty.email}</p>
+            <p>Phone: ${faculty.phone || 'Not provided'}</p>
+          </div>
+          
+          ${faculty.certsPaths && faculty.certsPaths.length > 0 ? `
+          <div class="detail-row">
+            <div class="detail-label">Certificates</div>
+            <div class="document-items">
+              ${faculty.certsPaths.map((path, i) => `
+              <div class="document-item">
+                <i class="fas fa-file-pdf"></i>
+                <span>Certificate ${i+1}</span>
+                <a href="http://localhost:5000/${path}" target="_blank">View</a>
+              </div>`).join('')}
+            </div>
+          </div>
+          ` : ''}
+          
+          ${faculty.awardsCertPaths && faculty.awardsCertPaths.length > 0 ? `
+          <div class="detail-row">
+            <div class="detail-label">Awards</div>
+            <div class="document-items">
+              ${faculty.awardsCertPaths.map((path, i) => `
+              <div class="document-item">
+                <i class="fas fa-trophy"></i>
+                <span>Award ${i+1}</span>
+                <a href="http://localhost:5000/${path}" target="_blank">View</a>
+              </div>`).join('')}
+            </div>
+          </div>
+          ` : ''}
+          
+          ${faculty.researchPapers && faculty.researchPapers.length > 0 ? `
+          <div class="detail-row">
+            <div class="detail-label">Research Papers</div>
+            <div class="document-items">
+              ${faculty.researchPapers.map((path, i) => `
+              <div class="document-item">
+                <i class="fas fa-file-pdf"></i>
+                <span>Research Paper ${i+1}</span>
+                <a href="http://localhost:5000/${path}" target="_blank">View</a>
+              </div>`).join('')}
+            </div>
+          </div>
+          ` : ''}
+        </div>
+      </div>
+    `;
+    
+    facultyModal.style.display = 'flex';
+  } catch (error) {
+    console.error("Error showing faculty details:", error);
+  }
+}
+
+    // Load Faculty Data
+    async function loadFacultyData() {
+      try {
+        const response = await fetch('http://localhost:5000/api/faculty');
+        facultyData = await response.json();
+        
+        // Initialize the UI with the fetched data
+        filterFaculty();
+        filterCertificates();
+        filterAwards();
+        filterResearchPapers();
+        initCharts(facultyData);
+      } catch (error) {
+        console.error("Error fetching faculty data", error);
+        // Fallback data if API fails
+        facultyData = [
+          {
+            name: "Deekshitha",
+            email: "deekshitha@gmail.com",
+            phone: "9876543210",
+            degBranch: "CSM",
+            photoPath: "faculty1.jpg",
+            certsPaths: ["uploads/certs/oracle-cert.pdf", "uploads/certs/aws-cert.pdf"],
+            awardsCertPaths: ["uploads/awards/best-teacher-2020.pdf"],
+            researchPapers: ["uploads/research/paper1.pdf", "uploads/research/paper2.pdf"]
+          },
+          {
+            name: "Azeema Firdous",
+            email: "azeemafirdous14@gmail.com",
+            phone: "9154674789",
+            degBranch: "CSE",
+            photoPath: "faculty2.jpg",
+            certsPaths: ["uploads/certs/microsoft-cert.pdf", "uploads/certs/google-cert.pdf"],
+            awardsCertPaths: ["uploads/awards/innovation-2019.pdf"],
+            researchPapers: ["uploads/research/ai-paper.pdf", "uploads/research/ml-paper.pdf"]
+          }
+        ];
+        
+        // Initialize the UI with fallback data
+        filterFaculty();
+        filterCertificates();
+        filterAwards();
+        filterResearchPapers();
+        initCharts(facultyData);
+      }
+    }
+
+    // Switch between sections
+    function switchSection(sectionId) {
+      sectionContents.forEach(section => {
+        section.style.display = 'none';
+      });
+      document.getElementById(`${sectionId}-section`).style.display = 'block';
+      
+      sidebarLinks.forEach(link => {
+        link.classList.remove('active');
+      });
+      document.querySelector(`[data-section="${sectionId}"]`).classList.add('active');
+    }
+
+    // Event Listeners
+    document.addEventListener('DOMContentLoaded', () => {
+      // Initialize the dashboard
+      setCurrentDate();
+      loadFacultyData();
+      
+      // Set up sidebar navigation
+      sidebarLinks.forEach(link => {
+        link.addEventListener('click', () => {
+          const section = link.getAttribute('data-section');
+          switchSection(section);
+        });
+      });
+      
+      // Set up department card clicks
+      departmentCards.forEach(card => {
+        card.addEventListener('click', () => {
+          const dept = card.getAttribute('data-dept');
+          document.getElementById('facultyDeptFilter').value = dept;
+          document.getElementById('certDeptFilter').value = dept;
+          document.getElementById('awardDeptFilter').value = dept;
+          document.getElementById('researchDeptFilter').value = dept;
+          switchSection('faculty');
+          filterFaculty();
+        });
+      });
+      
+      // Set up search and filter inputs
+      document.getElementById('facultySearch').addEventListener('input', filterFaculty);
+      document.getElementById('facultyDeptFilter').addEventListener('change', filterFaculty);
+      document.getElementById('certDeptFilter').addEventListener('change', filterCertificates);
+      document.getElementById('awardDeptFilter').addEventListener('change', filterAwards);
+      document.getElementById('researchDeptFilter').addEventListener('change', filterResearchPapers);
+      
+      // Set up modal close button
+      closeModalBtn.addEventListener('click', () => {
+        facultyModal.style.display = 'none';
+      });
+      
+      // Close modal when clicking outside
+      facultyModal.addEventListener('click', (e) => {
+        if (e.target === facultyModal) {
+          facultyModal.style.display = 'none';
+        }
+      });
+      
+      // Logout button
+      logoutBtn.addEventListener('click', () => {
+        // In a real app, this would redirect to logout endpoint
+        alert('Logging out...');
+        window.location.href = '/LOGIN.html';
+      });
+    });
+  </script>
+</body>
+</html>

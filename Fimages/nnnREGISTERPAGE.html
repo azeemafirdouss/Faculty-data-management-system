@@ -1,0 +1,273 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FaculTech</title>
+    
+    <!-- Google Font (for a modern look) -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #2e2c50, #3498db);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.3);
+            width: 420px;
+            text-align: center;
+            animation: fadeIn 1s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h2 {
+            color: #2e2c50;
+            font-size: 26px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        select, input {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 6px;
+            border: 1px solid #ccc;
+            font-size: 16px;
+            transition: all 0.3s ease-in-out;
+            outline: none;
+        }
+
+        select:focus, input:focus {
+            border: 2px solid #0072ff;
+            box-shadow: 0px 0px 10px rgba(0, 114, 255, 0.5);
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(90deg, #0072ff, #00c6ff);
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.4s ease-in-out;
+        }
+
+        button:hover {
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            transform: scale(1.05);
+            box-shadow: 0px 5px 15px rgba(0, 114, 255, 0.4);
+        }
+
+        #message {
+            font-size: 14px;
+            color: red;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .login-link {
+            margin-top: 15px;
+            font-size: 14px;
+        }
+
+        .login-link a {
+            color: #0072ff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease-in-out;
+        }
+
+        .login-link a:hover {
+            color: #00c6ff;
+            text-decoration: underline;
+        }
+
+        /* Input Validation Messages */
+        .error-message {
+            font-size: 13px;
+            color: red;
+            text-align: left;
+            margin-top: -8px;
+            margin-bottom: 8px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Register</h2>
+        <form id="registerForm">
+            <input type="text" id="name" placeholder="Full Name">
+            <p class="error-message" id="nameError">* Name must be at least 5 characters</p>
+
+            <input type="email" id="email" placeholder="Email Address">
+            <p class="error-message" id="emailError">* Enter a valid email</p>
+
+            <input type="password" id="password" placeholder="Password">
+            <p class="error-message" id="passwordError">* Password must be 8+ chars with a number & special char</p>
+
+            <select id="department">
+                <option value="">Select Department</option>
+                <option value="CSE">CSE</option>
+                <option value="CSM">CSM</option>
+                <option value="CSD">CSD</option>
+                <option value="IT">IT</option>
+               
+            </select>
+           
+            <select id="role">
+                <option value="faculty">Faculty</option>
+                
+            </select>
+
+            <input type="tel" id="phone" placeholder="Phone Number">
+            <p class="error-message" id="phoneError">* Enter a valid 10-digit number</p>
+
+            <button type="button" onclick="registerUser()">Register</button>
+            <p id="message"></p>
+        </form>
+
+        <!-- <p class="login-link">Already have an account? <a href="LOGINPAGE.html">Login</a></p> -->
+    </div>
+
+    <script>
+        function showError(id, message) {
+            const errorElement = document.getElementById(id);
+            errorElement.style.display = "block";
+            errorElement.innerText = message;
+        }
+    
+        function hideError(id) {
+            const errorElement = document.getElementById(id);
+            errorElement.style.display = "none";
+        }
+    
+        async function registerUser() {
+            const name = document.getElementById("name").value.trim();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const department = document.getElementById("department").value;
+            const role = document.getElementById("role").value;
+            const phone = document.getElementById("phone").value.trim();
+            const messageElement = document.getElementById("message");
+    
+            // Clear previous message
+            messageElement.textContent = "";
+    
+            let valid = true;
+    
+            // Name validation
+            if (!/^[a-zA-Z\s]{3,}$/.test(name)) {
+                showError("nameError", "* Name must be at least 3 characters");
+                valid = false;
+            } else {
+                hideError("nameError");
+            }
+    
+            // Email validation
+            if (!/^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/.test(email)) {
+                showError("emailError", "* Enter a valid email");
+                valid = false;
+            } else {
+                hideError("emailError");
+            }
+    
+            // Password validation\
+            
+            // if (!/^(?=.[A-Za-z])(?=.\d)(?=.[@$!%?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+            //     showError("passwordError", "* Password must be 8+ chars with a number & special char");
+            //     valid = false;
+            // } else {
+            //     hideError("passwordError");
+            // }
+    
+            if (!/^(?=.*[A-Za-z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(password)) {
+        showError("passwordError", "* Password must be 8+ chars with a number & special char");
+        valid = false;
+    } else {
+        hideError("passwordError");
+    }
+
+            // Phone number validation
+            if (!/^[6-9]\d{9}$/.test(phone)) {
+                showError("phoneError", "* Enter a valid 10-digit number");
+                valid = false;
+            } else {
+                hideError("phoneError");
+            }
+    
+            // Department validation
+            if (department === "") {
+                messageElement.style.color = "red";
+                messageElement.textContent = "* Please select a department";
+                valid = false;
+            }
+    
+            // Role validation
+            if (role === "") {
+                messageElement.style.color = "red";
+                messageElement.textContent = "* Please select a role";
+                valid = false;
+            }
+    
+            if (!valid) return;
+    
+            // All fields are valid — send to backend
+            try {
+                const response = await fetch("http://localhost:5000/register", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ name, email, password, department, role, phone }),
+                });
+    
+                const data = await response.json();
+    
+                if (response.ok) {
+                    messageElement.style.color = "green";
+                    messageElement.textContent = data.message || "Registration successful!";
+                    // Optionally redirect or clear form
+                    setTimeout(() => {
+        window.location.href = "LOGIN.html"; // change to your desired page
+    }, 2000)
+                } else {
+                    messageElement.style.color = "red";
+                    messageElement.textContent = data.message || "Registration failed!";
+                }
+            } catch (err) {
+                console.error(err);
+                messageElement.style.color = "red";
+                messageElement.textContent = "Something went wrong. Try again later.";
+            }
+        
+        }
+    </script>
+    
+
+</body>
+</html>
+
