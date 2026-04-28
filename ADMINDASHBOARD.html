@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <title>Admin Dashboard</title>
@@ -15,7 +16,7 @@
       --warning-color: #f39c12;
       --danger-color: #e74c3c;
     }
-    
+
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
@@ -23,7 +24,7 @@
       background: #f5f7fa;
       color: #333;
     }
-    
+
     .sidebar {
       width: 250px;
       background: var(--secondary-color);
@@ -34,19 +35,19 @@
       transition: all 0.3s;
       z-index: 1000;
     }
-    
+
     .sidebar h2 {
       text-align: center;
       margin-bottom: 30px;
       padding-bottom: 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.1);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
     }
-    
+
     .sidebar ul {
       list-style: none;
       padding: 0;
     }
-    
+
     .sidebar li {
       padding: 15px 25px;
       cursor: pointer;
@@ -54,87 +55,88 @@
       display: flex;
       align-items: center;
     }
-    
+
     .sidebar li:hover {
       background: var(--dark-color);
     }
-    
+
     .sidebar li.active {
       background: var(--primary-color);
     }
-    
+
     .sidebar li i {
       margin-right: 10px;
       width: 20px;
       text-align: center;
     }
-    
+
     #logoutBtn {
       position: absolute;
       bottom: 20px;
       width: 100%;
+      box-sizing: border-box;
     }
-    
+
     #logoutBtn:hover {
       background: var(--danger-color);
     }
-    
+
     .main-content {
       margin-left: 250px;
       padding: 20px;
       transition: all 0.3s;
     }
-    
+
     .header {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 15px 20px;
       background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
       border-radius: 8px;
     }
-    
+
     .search-container {
       display: flex;
       gap: 10px;
       align-items: center;
     }
-    
+
     .search-box input {
       width: 100%;
       padding: 8px 12px;
       border-radius: 4px;
       border: 1px solid #ddd;
     }
-    
+
     .department-filter select {
       padding: 8px 12px;
       border-radius: 4px;
       border: 1px solid #ddd;
       background: white;
     }
-    
+
     .card-container {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
       gap: 20px;
       margin-top: 20px;
     }
-    
+
     .card {
       background: white;
       border-radius: 8px;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
       transition: transform 0.3s;
     }
-    
+
     .card:hover {
       transform: translateY(-5px);
     }
-    
+
     .card-header {
       background: var(--primary-color);
       color: white;
@@ -143,15 +145,15 @@
       display: flex;
       align-items: center;
     }
-    
+
     .card-header i {
       margin-right: 10px;
     }
-    
+
     .card-body {
       padding: 15px;
     }
-    
+
     .faculty-item {
       display: flex;
       align-items: center;
@@ -159,7 +161,7 @@
       border-bottom: 1px solid #eee;
       cursor: pointer;
     }
-    
+
     .faculty-item img {
       width: 50px;
       height: 50px;
@@ -167,17 +169,17 @@
       object-fit: cover;
       margin-right: 15px;
     }
-    
+
     .faculty-info h4 {
       margin: 0 0 5px 0;
     }
-    
+
     .faculty-info p {
       margin: 0;
       color: #666;
       font-size: 0.9em;
     }
-    
+
     .document-items {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -208,52 +210,55 @@
     .document-item a:hover {
       text-decoration: underline;
     }
-    .dashboard-stats
-    {
+
+    .dashboard-stats {
       margin-bottom: 30px;
     }
+
     .stats-container {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 20px;
     }
-    
+
     .stat-card {
       background: white;
       border-radius: 8px;
       padding: 20px;
       text-align: center;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
-    
+
     .stat-card .value {
       font-size: 2em;
       font-weight: bold;
       margin: 10px 0;
       color: var(--primary-color);
     }
-    
+
     .stat-card .label {
       color: #666;
     }
-    .dashboard-charts{
-      margin-top:20px;
+
+    .dashboard-charts {
+      margin-top: 20px;
     }
+
     .chart-container {
       background: white;
       border-radius: 8px;
       padding: 20px;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       margin-bottom: 20px;
     }
-    
+
     .chart-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 20px;
       margin-bottom: 20px;
     }
-    
+
     .modal {
       display: none;
       position: fixed;
@@ -261,12 +266,12 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.5);
+      background: rgba(0, 0, 0, 0.5);
       z-index: 2000;
       justify-content: center;
       align-items: center;
     }
-    
+
     .modal-content {
       background: white;
       width: 80%;
@@ -274,9 +279,9 @@
       max-height: 90vh;
       border-radius: 8px;
       overflow: hidden;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
     }
-    
+
     .modal-header {
       padding: 15px 20px;
       border-bottom: 1px solid #eee;
@@ -284,82 +289,83 @@
       justify-content: space-between;
       align-items: center;
     }
-    
+
     .modal-header h3 {
       margin: 0;
     }
-    
+
     .modal-body {
       padding: 20px;
       overflow-y: auto;
       max-height: calc(90vh - 100px);
     }
-    
+
     .close-modal {
       background: none;
       border: none;
       font-size: 1.5em;
       cursor: pointer;
     }
-    
+
     .faculty-details {
       display: flex;
       gap: 20px;
     }
-    
+
     .faculty-photo img {
       width: 200px;
       height: 200px;
       object-fit: cover;
       border-radius: 8px;
     }
-    
+
     .faculty-data {
       flex: 1;
     }
-    
+
     .detail-row {
       margin-bottom: 15px;
     }
-    
+
     .detail-label {
       font-weight: bold;
       margin-bottom: 5px;
       color: var(--secondary-color);
     }
-    
+
     @media (max-width: 768px) {
       .sidebar {
         width: 70px;
         overflow: hidden;
       }
-      
+
       .sidebar li span {
         display: none;
       }
-      
+
       .main-content {
         margin-left: 70px;
       }
-      
+
       .stats-container {
         grid-template-columns: repeat(2, 1fr);
       }
-      
+
       .chart-row {
         grid-template-columns: 1fr;
       }
-      
+
       .faculty-details {
         flex-direction: column;
       }
-      
+
       .faculty-photo {
         text-align: center;
       }
     }
   </style>
 </head>
+
 <body>
   <div class="sidebar">
     <h2>Admin Dashboard</h2>
@@ -370,6 +376,7 @@
       <li data-section="certificates"><i class="fas fa-certificate"></i> <span>Certificates</span></li>
       <li data-section="awards"><i class="fas fa-trophy"></i> <span>Awards</span></li>
       <li data-section="research"><i class="fas fa-file-alt"></i> <span>Research Papers</span></li>
+      <li data-section="grievances"><i class="fas fa-exclamation-circle"></i> <span>Grievances</span></li>
       <li id="logoutBtn"><i class="fas fa-sign-out-alt"></i> <span>Logout</span></li>
     </ul>
   </div>
@@ -382,85 +389,85 @@
         <div class="date-display" id="currentDate"></div>
       </div>
       <div class="dashboard-stats">
-      <div class="stats-container">
-        <div class="stat-card">
-          <i class="fas fa-building"></i>
-          <div class="value" id="deptCount">0</div>
-          <div class="label">Departments</div>
-        </div>
-        <div class="stat-card">
-          <i class="fas fa-users"></i>
-          <div class="value" id="facultyCount">0</div>
-          <div class="label">Faculty Members</div>
-        </div>
-        <div class="stat-card">
-          <i class="fas fa-certificate"></i>
-          <div class="value" id="certCount">0</div>
-          <div class="label">Certificates</div>
-        </div>
-        <div class="stat-card">
-          <i class="fas fa-trophy"></i>
-          <div class="value" id="awardCount">0</div>
-          <div class="label">Awards</div>
+        <div class="stats-container">
+          <div class="stat-card">
+            <i class="fas fa-building"></i>
+            <div class="value" id="deptCount">0</div>
+            <div class="label">Departments</div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-users"></i>
+            <div class="value" id="facultyCount">0</div>
+            <div class="label">Faculty Members</div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-certificate"></i>
+            <div class="value" id="certCount">0</div>
+            <div class="label">Certificates</div>
+          </div>
+          <div class="stat-card">
+            <i class="fas fa-trophy"></i>
+            <div class="value" id="awardCount">0</div>
+            <div class="label">Awards</div>
+          </div>
         </div>
       </div>
-      </div>
-      <div class=""dashboard-charts">
-    
-      <div class="chart-row">
-        <div class="chart-container">
-          <h3 class="chart-title">Faculty Distribution by Department</h3>
-          <canvas id="departmentChart"></canvas>
-        </div>
-        <div class="chart-container">
-          <h3 class="chart-title">Certificates & Awards</h3>
-          <canvas id="certAwardChart"></canvas>
+      <div class="dashboard-charts">
+
+        <div class="chart-row">
+          <div class="chart-container">
+            <h3 class="chart-title">Faculty Distribution by Department</h3>
+            <canvas id="departmentChart"></canvas>
+          </div>
+          <div class="chart-container">
+            <h3 class="chart-title">Certificates & Awards</h3>
+            <canvas id="certAwardChart"></canvas>
+          </div>
         </div>
       </div>
     </div>
-    </div>
-    
+
     <!-- Departments Section -->
     <div id="departments-section" class="section-content" style="display:none;">
       <div class="header">
         <h3><i class="fas fa-building"></i> Departments</h3>
       </div>
-      
+
       <div class="card-container">
         <div class="card department-card" data-dept="CSE">
           <div class="card-body">
             <div class="icon"><i class="fas fa-laptop-code"></i></div>
-            <h3>Computer Science</h3>
+            <h3>CSE</h3>
             <div class="count" id="cseCount">0 Faculty</div>
           </div>
         </div>
-        
+
         <div class="card department-card" data-dept="CSM">
           <div class="card-body">
             <div class="icon"><i class="fas fa-mobile-alt"></i></div>
-            <h3>Computer Science (Mobile)</h3>
+            <h3>CSM</h3>
             <div class="count" id="csmCount">0 Faculty</div>
           </div>
         </div>
-        
+
         <div class="card department-card" data-dept="CSD">
           <div class="card-body">
             <div class="icon"><i class="fas fa-database"></i></div>
-            <h3>Computer Science (Data)</h3>
+            <h3>CSD</h3>
             <div class="count" id="csdCount">0 Faculty</div>
           </div>
         </div>
-        
+
         <div class="card department-card" data-dept="IT">
           <div class="card-body">
             <div class="icon"><i class="fas fa-network-wired"></i></div>
-            <h3>Information Technology</h3>
+            <h3>IT</h3>
             <div class="count" id="itCount">0 Faculty</div>
           </div>
         </div>
       </div>
     </div>
-    
+
     <!-- Faculty List Section -->
     <div id="faculty-section" class="section-content" style="display:none;">
       <div class="header">
@@ -480,7 +487,7 @@
           </div>
         </div>
       </div>
-      
+
       <div class="card">
         <div class="card-header">
           <i class="fas fa-list"></i> Faculty List
@@ -490,7 +497,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Certificates Section -->
     <div id="certificates-section" class="section-content" style="display:none;">
       <div class="header">
@@ -505,7 +512,7 @@
           </select>
         </div>
       </div>
-      
+
       <div class="card">
         <div class="card-header">
           <i class="fas fa-certificate"></i> Certificates
@@ -515,7 +522,7 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Awards Section -->
     <div id="awards-section" class="section-content" style="display:none;">
       <div class="header">
@@ -530,7 +537,7 @@
           </select>
         </div>
       </div>
-      
+
       <div class="card">
         <div class="card-header">
           <i class="fas fa-trophy"></i> Awards
@@ -540,36 +547,55 @@
         </div>
       </div>
     </div>
-    
+
     <!-- Research Papers Section -->
     <!-- Research Papers Section -->
-<div id="research-section" class="section-content" style="display:none;">
-  <div class="header">
-    <h3><i class="fas fa-file-alt"></i> Faculty Research Papers</h3>
-    <div class="department-filter">
-      <select id="researchDeptFilter">
-        <option value="">All Departments</option>
-        <option value="CSE">CSE</option>
-        <option value="CSM">CSM</option>
-        <option value="CSD">CSD</option>
-        <option value="IT">IT</option>
-      </select>
+    <div id="research-section" class="section-content" style="display:none;">
+      <div class="header">
+        <h3><i class="fas fa-file-alt"></i> Faculty Research Papers</h3>
+        <div class="department-filter">
+          <select id="researchDeptFilter">
+            <option value="">All Departments</option>
+            <option value="CSE">CSE</option>
+            <option value="CSM">CSM</option>
+            <option value="CSD">CSD</option>
+            <option value="IT">IT</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <i class="fas fa-file-alt"></i> Research Papers
+        </div>
+        <div class="card-body" id="researchPapersList">
+          <!-- Research papers will be loaded here -->
+        </div>
+      </div>
+    </div>
+
+    <!-- Grievances Section -->
+    <div id="grievances-section" class="section-content" style="display:none;">
+      <div class="header">
+        <h3><i class="fas fa-exclamation-circle"></i> Faculty Grievances</h3>
+        <div class="search-container">
+          <div class="department-filter">
+            <select id="grievanceDeptFilter">
+              <option value="all">All Departments</option>
+              <option value="CSE">CSE</option>
+              <option value="CSM">CSM</option>
+              <option value="CSD">CSD</option>
+              <option value="IT">IT</option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div id="grievancesList" style="display: flex; flex-direction: column; gap: 15px; margin-top: 20px;">
+        <!-- Grievances will be loaded here -->
+      </div>
     </div>
   </div>
-  
-  <div class="card">
-    <div class="card-header">
-      <i class="fas fa-file-alt"></i> Research Papers
-    </div>
-    <div class="card-body" id="researchPapersList">
-      <!-- Research papers will be loaded here -->
-    </div>
-  </div>
-</div>
-      
-    </div>
-  </div>
-  
+
   <!-- Faculty Details Modal -->
   <div class="modal" id="facultyModal">
     <div class="modal-content">
@@ -591,15 +617,15 @@
     const facultyModal = document.getElementById('facultyModal');
     const closeModalBtn = document.querySelector('.close-modal');
     const logoutBtn = document.getElementById('logoutBtn');
-    
+
     // Global faculty data
     let facultyData = [];
-    
+
     // Initialize Charts
     function initCharts(facultyData) {
       // Count faculty by department
       const deptCounts = { CSE: 0, CSM: 0, CSD: 0, IT: 0 };
-      
+
       facultyData.forEach(faculty => {
         if (faculty.degBranch) {
           const branch = faculty.degBranch.toUpperCase();
@@ -609,7 +635,7 @@
           else if (branch === 'IT') deptCounts.IT++;
         }
       });
-      
+
       // Update department counts
       document.getElementById('cseCount').textContent = `${deptCounts.CSE} Faculty`;
       document.getElementById('csmCount').textContent = `${deptCounts.CSM} Faculty`;
@@ -617,19 +643,19 @@
       document.getElementById('itCount').textContent = `${deptCounts.IT} Faculty`;
       document.getElementById('deptCount').textContent = 4;
       document.getElementById('facultyCount').textContent = facultyData.length;
-      
+
       // Count certificates and awards
       let certCount = 0;
       let awardCount = 0;
-      
+
       facultyData.forEach(faculty => {
         if (faculty.certsPaths) certCount += faculty.certsPaths.length;
         if (faculty.awardsCertPaths) awardCount += faculty.awardsCertPaths.length;
       });
-      
+
       document.getElementById('certCount').textContent = certCount;
       document.getElementById('awardCount').textContent = awardCount;
-      
+
       // Department Distribution Pie Chart
       const deptCtx = document.getElementById('departmentChart').getContext('2d');
       new Chart(deptCtx, {
@@ -649,7 +675,7 @@
           }
         }
       });
-      
+
       // Certificates vs Awards Bar Chart
       const certAwardCtx = document.getElementById('certAwardChart').getContext('2d');
       new Chart(certAwardCtx, {
@@ -685,51 +711,56 @@
         }
       });
     }
-    
+
     // Set current date
     function setCurrentDate() {
       const now = new Date();
-      document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', { 
-        year: 'numeric', month: 'long', day: 'numeric' 
+      document.getElementById('currentDate').textContent = now.toLocaleDateString('en-US', {
+        year: 'numeric', month: 'long', day: 'numeric'
       });
     }
-    
+
     // Filter Faculty
     function filterFaculty() {
       const dept = document.getElementById('facultyDeptFilter').value;
       const searchTerm = document.getElementById('facultySearch').value.toLowerCase();
       const facultyListContainer = document.getElementById('facultyList');
-      
+
       facultyListContainer.innerHTML = '';
-      
+
       const filteredFaculty = facultyData.filter(f => {
         const matchesDept = !dept || (f.degBranch && f.degBranch.toUpperCase() === dept);
-        const matchesSearch = !searchTerm || 
-          (f.name && f.name.toLowerCase().includes(searchTerm)) || 
+        const matchesSearch = !searchTerm ||
+          (f.name && f.name.toLowerCase().includes(searchTerm)) ||
           (f.email && f.email.toLowerCase().includes(searchTerm));
         return matchesDept && matchesSearch;
       });
-      
+
       if (filteredFaculty.length === 0) {
         facultyListContainer.innerHTML = '<p>No faculty members found matching your criteria.</p>';
         return;
       }
-      
+
       filteredFaculty.forEach((faculty, index) => {
         const facultyItem = document.createElement('div');
         facultyItem.className = 'faculty-item';
         facultyItem.innerHTML = `
        
-          <div class="faculty-info">
-            <h4>${faculty.name}</h4>
-            <p>${faculty.email} • ${faculty.degBranch || 'Not specified'}</p>
+          <div class="faculty-info" style="width: 100%;">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 5px;">
+              <h4 style="margin: 0;">${faculty.name}</h4>
+              ${faculty.profileComplete ?
+            '<span style="background:#d4edda; color:#155724; padding:2px 8px; border-radius:12px; font-size:12px;">Profile Complete</span>' :
+            '<span style="background:#f8d7da; color:#721c24; padding:2px 8px; border-radius:12px; font-size:12px;">Pending Data</span>'}
+            </div>
+            <p style="margin: 0;">${faculty.email} • ${faculty.degBranch || faculty.department || 'Not specified'}</p>
           </div>
         `;
         facultyItem.addEventListener('click', () => showFacultyDetails(index));
         facultyListContainer.appendChild(facultyItem);
       });
     }
-    
+
     // Filter Certificates
     async function filterCertificates() {
       const dept = document.getElementById('certDeptFilter').value;
@@ -737,9 +768,9 @@
       certificatesContainer.innerHTML = '<p>Loading certificates...</p>';
 
       try {
-        const response = await fetch(`http://localhost:5000/api/faculty-documents?department=${dept}`);
+        const response = await fetch(`/api/faculty-documents?department=${dept}`);
         const data = await response.json();
-        
+
         if (data.length === 0) {
           certificatesContainer.innerHTML = '<p>No certificates found for this department.</p>';
           return;
@@ -755,8 +786,8 @@
                 ${faculty.certsPaths.map((path, i) => `
                 <div class="document-item">
                   <i class="fas fa-file-pdf"></i>
-                  <span>Certificate ${i+1}</span>
-                  <a href="http://localhost:5000/${path}" target="_blank">View</a>
+                  <span>Certificate ${i + 1}</span>
+                  <a href="/${path}" target="_blank">View</a>
                 </div>`).join('')}
               </div>
             </div>`;
@@ -769,7 +800,7 @@
         console.error("Error loading certificates:", error);
       }
     }
-    
+
     // Filter Awards
     async function filterAwards() {
       const dept = document.getElementById('awardDeptFilter').value;
@@ -777,9 +808,9 @@
       awardsContainer.innerHTML = '<p>Loading awards...</p>';
 
       try {
-        const response = await fetch(`http://localhost:5000/api/faculty-documents?department=${dept}`);
+        const response = await fetch(`/api/faculty-documents?department=${dept}`);
         const data = await response.json();
-        
+
         if (data.length === 0) {
           awardsContainer.innerHTML = '<p>No awards found for this department.</p>';
           return;
@@ -795,8 +826,8 @@
                   ${faculty.awardsCertPaths.map((path, i) => `
                   <div class="document-item">
                     <i class="fas fa-trophy"></i>
-                    <span>Award ${i+1}</span>
-                    <a href="http://localhost:5000/${path}" target="_blank">View</a>
+                    <span>Award ${i + 1}</span>
+                    <a href="/${path}" target="_blank">View</a>
                   </div>`).join('')}
                 </div>
               </div>`;
@@ -809,54 +840,54 @@
         console.error("Error loading awards:", error);
       }
     }
-    
+
     // Filter Research Papers
     async function filterResearchPapers() {
-  const dept = document.getElementById('researchDeptFilter').value;
-  const researchContainer = document.getElementById('researchPapersList');
-  researchContainer.innerHTML = '<p>Loading research papers...</p>';
+      const dept = document.getElementById('researchDeptFilter').value;
+      const researchContainer = document.getElementById('researchPapersList');
+      researchContainer.innerHTML = '<p>Loading research papers...</p>';
 
-  try {
-    const response = await fetch(`http://localhost:5000/api/research-papers?department=${dept}`);
-    const data = await response.json();
-    
-    if (data.length === 0) {
-      researchContainer.innerHTML = '<p>No research papers found for this department.</p>';
-      return;
-    }
+      try {
+        const response = await fetch(`/api/research-papers?department=${dept}`);
+        const data = await response.json();
 
-    let html = '';
-    data.forEach(faculty => {
-      if (faculty.researchPapers && faculty.researchPapers.length > 0) {
-        html += `
+        if (data.length === 0) {
+          researchContainer.innerHTML = '<p>No research papers found for this department.</p>';
+          return;
+        }
+
+        let html = '';
+        data.forEach(faculty => {
+          if (faculty.researchPapers && faculty.researchPapers.length > 0) {
+            html += `
           <div class="faculty-document-group">
             <h4>${faculty.name} (${faculty.degBranch})</h4>
             <div class="document-items">
               ${faculty.researchPapers.map((path, i) => `
               <div class="document-item">
                 <i class="fas fa-file-pdf"></i>
-                <span>Research Paper ${i+1}</span>
-                <a href="http://localhost:5000/${path}" target="_blank">View</a>
+                <span>Research Paper ${i + 1}</span>
+                <a href="/${path}" target="_blank">View</a>
               </div>`).join('')}
             </div>
           </div>`;
-      }
-    });
+          }
+        });
 
-    researchContainer.innerHTML = html || '<p>No research papers found for this department.</p>';
-  } catch (error) {
-    console.error("Error loading research papers:", error);
-    researchContainer.innerHTML = '<p>Error loading research papers. Please try again.</p>';
-  }
-}
+        researchContainer.innerHTML = html || '<p>No research papers found for this department.</p>';
+      } catch (error) {
+        console.error("Error loading research papers:", error);
+        researchContainer.innerHTML = '<p>Error loading research papers. Please try again.</p>';
+      }
+    }
     // Show Faculty Details
     async function showFacultyDetails(id) {
-  try {
-    const faculty = facultyData[id];
-    if (!faculty) return;
-    
-    const modalContent = document.getElementById('facultyDetailsContent');
-    modalContent.innerHTML = `
+      try {
+        const faculty = facultyData[id];
+        if (!faculty) return;
+
+        const modalContent = document.getElementById('facultyDetailsContent');
+        modalContent.innerHTML = `
       <div class="faculty-details">
         
         <div class="faculty-data">
@@ -875,8 +906,8 @@
               ${faculty.certsPaths.map((path, i) => `
               <div class="document-item">
                 <i class="fas fa-file-pdf"></i>
-                <span>Certificate ${i+1}</span>
-                <a href="http://localhost:5000/${path}" target="_blank">View</a>
+                <span>Certificate ${i + 1}</span>
+                <a href="/${path}" target="_blank">View</a>
               </div>`).join('')}
             </div>
           </div>
@@ -889,8 +920,8 @@
               ${faculty.awardsCertPaths.map((path, i) => `
               <div class="document-item">
                 <i class="fas fa-trophy"></i>
-                <span>Award ${i+1}</span>
-                <a href="http://localhost:5000/${path}" target="_blank">View</a>
+                <span>Award ${i + 1}</span>
+                <a href="/${path}" target="_blank">View</a>
               </div>`).join('')}
             </div>
           </div>
@@ -903,8 +934,8 @@
               ${faculty.researchPapers.map((path, i) => `
               <div class="document-item">
                 <i class="fas fa-file-pdf"></i>
-                <span>Research Paper ${i+1}</span>
-                <a href="http://localhost:5000/${path}" target="_blank">View</a>
+                <span>Research Paper ${i + 1}</span>
+                <a href="/${path}" target="_blank">View</a>
               </div>`).join('')}
             </div>
           </div>
@@ -912,19 +943,19 @@
         </div>
       </div>
     `;
-    
-    facultyModal.style.display = 'flex';
-  } catch (error) {
-    console.error("Error showing faculty details:", error);
-  }
-}
+
+        facultyModal.style.display = 'flex';
+      } catch (error) {
+        console.error("Error showing faculty details:", error);
+      }
+    }
 
     // Load Faculty Data
     async function loadFacultyData() {
       try {
-        const response = await fetch('http://localhost:5000/api/faculty');
+        const response = await fetch('/api/faculty');
         facultyData = await response.json();
-        
+
         // Initialize the UI with the fetched data
         filterFaculty();
         filterCertificates();
@@ -956,7 +987,7 @@
             researchPapers: ["uploads/research/ai-paper.pdf", "uploads/research/ml-paper.pdf"]
           }
         ];
-        
+
         // Initialize the UI with fallback data
         filterFaculty();
         filterCertificates();
@@ -972,7 +1003,7 @@
         section.style.display = 'none';
       });
       document.getElementById(`${sectionId}-section`).style.display = 'block';
-      
+
       sidebarLinks.forEach(link => {
         link.classList.remove('active');
       });
@@ -984,7 +1015,8 @@
       // Initialize the dashboard
       setCurrentDate();
       loadFacultyData();
-      
+      loadGrievances();
+
       // Set up sidebar navigation
       sidebarLinks.forEach(link => {
         link.addEventListener('click', () => {
@@ -992,7 +1024,7 @@
           switchSection(section);
         });
       });
-      
+
       // Set up department card clicks
       departmentCards.forEach(card => {
         card.addEventListener('click', () => {
@@ -1005,33 +1037,74 @@
           filterFaculty();
         });
       });
-      
+
       // Set up search and filter inputs
       document.getElementById('facultySearch').addEventListener('input', filterFaculty);
       document.getElementById('facultyDeptFilter').addEventListener('change', filterFaculty);
       document.getElementById('certDeptFilter').addEventListener('change', filterCertificates);
       document.getElementById('awardDeptFilter').addEventListener('change', filterAwards);
       document.getElementById('researchDeptFilter').addEventListener('change', filterResearchPapers);
-      
+      document.getElementById('grievanceDeptFilter').addEventListener('change', loadGrievances);
+
       // Set up modal close button
       closeModalBtn.addEventListener('click', () => {
         facultyModal.style.display = 'none';
       });
-      
+
       // Close modal when clicking outside
       facultyModal.addEventListener('click', (e) => {
         if (e.target === facultyModal) {
           facultyModal.style.display = 'none';
         }
       });
-      
+
       // Logout button
       logoutBtn.addEventListener('click', () => {
-        // In a real app, this would redirect to logout endpoint
-        alert('Logging out...');
-        window.location.href = '/LOGIN.html';
+        localStorage.clear();
+        alert('Logged out successfully');
+        window.location.href = 'LOGIN.html';
       });
     });
+
+    async function loadGrievances() {
+      try {
+        const deptFilter = document.getElementById('grievanceDeptFilter').value;
+        const url = deptFilter === 'all' ? '/api/grievances' : `/api/grievances?department=${deptFilter}`;
+        const response = await fetch(url);
+        const grievances = await response.json();
+
+        const grievancesList = document.getElementById('grievancesList');
+        grievancesList.innerHTML = '';
+
+        if (grievances.length === 0) {
+          grievancesList.innerHTML = '<p>No grievances found.</p>';
+          return;
+        }
+
+        grievances.forEach(g => {
+          const date = new Date(g.submittedAt).toLocaleDateString();
+          const card = document.createElement('div');
+          card.className = 'card';
+          card.style.flexDirection = 'column';
+          card.style.alignItems = 'flex-start';
+          card.style.flex = '0 0 100%'; // Make card full width
+          card.innerHTML = `
+            <div style="width: 100%; display: flex; justify-content: space-between; margin-bottom: 10px; border-bottom: 1px solid #eee; padding-bottom: 10px;">
+              <div>
+                <h4 style="margin: 0; color: #00897b;">${g.facultyName}</h4>
+                <small style="color: #666;">${g.facultyEmail} | ${g.department}</small>
+              </div>
+              <div style="color: #999; font-size: 0.9rem;">${date}</div>
+            </div>
+            <p style="margin: 0; line-height: 1.5;">${g.grievance}</p>
+          `;
+          grievancesList.appendChild(card);
+        });
+      } catch (error) {
+        console.error('Error loading grievances:', error);
+      }
+    }
   </script>
 </body>
+
 </html>

@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
@@ -13,20 +14,28 @@ app.use(cors());
 app.use('/uploads', express.static('uploads'));
 app.use(express.static(__dirname));
 
-mongoose.connect("mongodb://127.0.0.1:27017/seema3", {
+app.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'HOME.html'));
+});
+
+const mongoURI = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/seema3";
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log("✅ MongoDB connected successfully"))
   .catch((err) => {
     console.error("❌ MongoDB connection error:", err);
-    process.exit(1); 
+    process.exit(1);
   });
 
 const transporter = nodemailer.createTransport({
   service: 'gmail',
   auth: {
     user: 'azeemafirdous14@gmail.com',
-    pass: 'krvf ujuo axfy jwna'
+    pass: 'nbli xssf gxhc yvhb'
+  },
+  tls: {
+    rejectUnauthorized: false
   }
 });
 
@@ -42,7 +51,7 @@ const storage = multer.diskStorage({
         return cb(new Error("Failed to create uploads directory: " + err.message), null);
       }
     }
-    
+
     fs.access(uploadDir, fs.constants.W_OK, (err) => {
       if (err) {
         console.error("❌ Uploads directory is not writable:", err.message);
@@ -62,7 +71,7 @@ const fileFilter = (req, file, cb) => {
   const allowedTypes = /pdf|jpg|jpeg|png/;
   const extname = allowedTypes.test(path.extname(file.originalname).toLowerCase());
   const mimetype = allowedTypes.test(file.mimetype);
-  
+
   if (extname && mimetype) {
     return cb(null, true);
   } else {
@@ -75,7 +84,7 @@ const upload = multer({
   storage: storage,
   fileFilter: fileFilter,
   limits: {
-    fileSize: 10 * 1024 * 1024 
+    fileSize: 10 * 1024 * 1024
   }
 }).fields([
   { name: 'photo', maxCount: 1 },
@@ -193,21 +202,21 @@ app.post("/register", async (req, res) => {
       const validHOD = hodCredentials.find(
         hod => hod.username === email.split('@')[0] && password === hod.password
       );
-      
+
       if (!validHOD) {
         return res.status(400).json({ error: "Invalid HOD credentials!" });
       }
     }
 
-    const newFaculty = new Faculty({ 
-      name, 
-      email, 
-      password, 
-      department, 
-      role, 
-      phone 
+    const newFaculty = new Faculty({
+      name,
+      email,
+      password,
+      department,
+      role,
+      phone
     });
-    
+
     await newFaculty.save();
     res.status(201).json({ message: "Registration successful!" });
   } catch (error) {
@@ -224,8 +233,8 @@ app.post("/login", async (req, res) => {
       return res.status(400).json({ error: "All fields are required!" });
     }
     if (email === "admin" && password === "admin123") {
-      return res.status(200).json({ 
-        message: "Admin login successful!", 
+      return res.status(200).json({
+        message: "Admin login successful!",
         role: "admin",
         redirect: "ADMINDASHBOARD.html"
       });
@@ -233,7 +242,7 @@ app.post("/login", async (req, res) => {
     const hodUser = hodCredentials.find(
       hod => hod.username === email.split('@')[0] && hod.password === password
     );
-    
+
     if (hodUser) {
       return res.status(200).json({
         message: "HOD login successful!",
@@ -254,16 +263,16 @@ app.post("/login", async (req, res) => {
     }
     if (user.role === "faculty") {
       const profile = await FacultyProfile.findOne({ email });
-      return res.status(200).json({ 
-        message: "Login successful!", 
+      return res.status(200).json({
+        message: "Login successful!",
         role: user.role,
         hasProfile: !!profile,
         email: user.email,
         redirect: "FACULTYDASHBOARD.html"
       });
     }
-    return res.status(200).json({ 
-      message: `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} login successful!`, 
+    return res.status(200).json({
+      message: `${user.role.charAt(0).toUpperCase() + user.role.slice(1)} login successful!`,
       role: user.role,
       redirect: `${user.role}-LOGIN.html`
     });
@@ -277,7 +286,7 @@ app.post("/login", async (req, res) => {
 app.post('/forgot-password', async (req, res) => {
   try {
     const { email } = req.body;
-    
+
     const user = await Faculty.findOne({ email });
     if (!user) {
       return res.status(404).json({ error: 'User not found' });
@@ -285,7 +294,7 @@ app.post('/forgot-password', async (req, res) => {
 
     const otp = generateOTP();
     user.resetPasswordOTP = otp;
-    user.resetPasswordOTPExpires = Date.now() + 600000; 
+    user.resetPasswordOTPExpires = Date.now() + 600000;
     await user.save();
 
     const mailOptions = {
@@ -308,8 +317,8 @@ app.post('/forgot-password', async (req, res) => {
 app.post('/verify-otp', async (req, res) => {
   try {
     const { email, otp } = req.body;
-    
-    const user = await Faculty.findOne({ 
+
+    const user = await Faculty.findOne({
       email,
       resetPasswordOTP: otp,
       resetPasswordOTPExpires: { $gt: Date.now() }
@@ -335,12 +344,12 @@ app.post('/reset-password', async (req, res) => {
 
     const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
     if (!passwordRegex.test(newPassword)) {
-      return res.status(400).json({ 
-        error: 'Password must contain: 8+ characters, 1 uppercase, 1 lowercase, 1 number, 1 special character (@$!%*?&)' 
+      return res.status(400).json({
+        error: 'Password must contain: 8+ characters, 1 uppercase, 1 lowercase, 1 number, 1 special character (@$!%*?&)'
       });
     }
 
-    const user = await Faculty.findOne({ 
+    const user = await Faculty.findOne({
       email,
       resetPasswordOTP: otp,
       resetPasswordOTPExpires: { $gt: Date.now() }
@@ -367,16 +376,29 @@ app.get("/api/faculty/:email", async (req, res) => {
     if (!profile) {
       return res.status(404).json({ exists: false });
     }
-    
+
     // Convert to plain object and include all document paths
     const profileData = profile.toObject();
-    res.status(200).json({ 
-      exists: true, 
-      profile: profileData 
+    res.status(200).json({
+      exists: true,
+      profile: profileData
     });
   } catch (error) {
     console.error("❌ Profile fetch error:", error.message);
     res.status(500).json({ error: "Server error: " + error.message });
+  }
+});
+
+app.get("/api/faculty-user/:email", async (req, res) => {
+  try {
+    const user = await Faculty.findOne({ email: req.params.email }).select('name email phone department');
+    if (!user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+    res.status(200).json(user);
+  } catch (error) {
+    console.error("Error fetching faculty user:", error);
+    res.status(500).json({ error: "Server error" });
   }
 });
 
@@ -387,9 +409,21 @@ app.post("/api/faculty", (req, res, next) => {
   });
 }, async (req, res) => {
   try {
-    const { email, conferences } = req.body;
+    const { email, name, phone, conferences } = req.body;
     const files = req.files;
     console.log("📂 Received files:", files);
+    
+    // Validate that name and phone match the original registration data
+    const registeredFaculty = await Faculty.findOne({ email });
+    if (!registeredFaculty) {
+      return res.status(404).json({ error: "Faculty registration not found." });
+    }
+    
+    // Ensure we are comparing trimmed strings and handling empty values properly
+    if ((name || '').trim() !== registeredFaculty.name || (phone || '').trim() !== registeredFaculty.phone) {
+      return res.status(400).json({ error: "Name and Mobile Number must match your registration details." });
+    }
+
     let parsedConferences = [];
     if (conferences) {
       try {
@@ -446,7 +480,7 @@ app.post("/api/faculty", (req, res, next) => {
     });
 
     const existingProfile = await FacultyProfile.findOne({ email });
-    
+
     if (existingProfile) {
       // Preserve existing document paths if new files aren't uploaded
       if (!profileData.photoPath && existingProfile.photoPath) profileData.photoPath = existingProfile.photoPath;
@@ -455,7 +489,7 @@ app.post("/api/faculty", (req, res, next) => {
       if (!profileData.sscCertPath && existingProfile.sscCertPath) profileData.sscCertPath = existingProfile.sscCertPath;
       if (!profileData.interCertPath && existingProfile.interCertPath) profileData.interCertPath = existingProfile.interCertPath;
       if (!profileData.degCertPath && existingProfile.degCertPath) profileData.degCertPath = existingProfile.degCertPath;
-      
+
       // For arrays, merge existing and new entries
       if (existingProfile.researchPapers && existingProfile.researchPapers.length > 0) {
         profileData.researchPapers = [...(profileData.researchPapers || []), ...existingProfile.researchPapers];
@@ -486,7 +520,7 @@ app.post("/api/faculty", (req, res, next) => {
 });
 
 app.get('/grievance', (req, res) => {
-  res.sendFile(path.join(__dirname, 'GRTEVANCE.html'));
+  res.sendFile(path.join(__dirname, 'GRIEVANCE.html'));
 });
 
 app.post('/submit-grievance', async (req, res) => {
@@ -501,11 +535,26 @@ app.post('/submit-grievance', async (req, res) => {
   }
 });
 
+app.get("/api/grievances", async (req, res) => {
+  try {
+    const { department } = req.query;
+    let query = {};
+    if (department) {
+      query.department = { $regex: new RegExp(`^${department}$`, 'i') };
+    }
+    const grievances = await Grievance.find(query).sort({ submittedAt: -1 });
+    res.status(200).json(grievances);
+  } catch (error) {
+    console.error("❌ Error fetching grievances:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
 app.get("/api/faculty-documents", async (req, res) => {
   try {
     const { department } = req.query;
     let query = {};
-    
+
     if (department) {
       query.degBranch = { $regex: new RegExp(department, 'i') };
     }
@@ -523,11 +572,31 @@ app.get("/api/faculty-documents", async (req, res) => {
 
 app.get("/api/faculty", async (req, res) => {
   try {
-    const faculty = await FacultyProfile.find()
-      .select('name email phone degBranch photoPath certsPaths awardsCertPaths')
-      .lean();
-      
-    res.status(200).json(faculty);
+    const { department } = req.query;
+    let query = { role: "faculty" };
+    
+    if (department && department !== 'all') {
+      query.department = { $regex: new RegExp(department, 'i') };
+    }
+
+    // Fetch registered faculty
+    const registeredFaculty = await Faculty.find(query).select('name email phone department').lean();
+    
+    // Fetch their profiles
+    const emails = registeredFaculty.map(f => f.email);
+    const profiles = await FacultyProfile.find({ email: { $in: emails } }).lean();
+    
+    // Merge
+    const merged = registeredFaculty.map(f => {
+      const profile = profiles.find(p => p.email === f.email);
+      if (profile) {
+         return { ...profile, profileComplete: true, name: f.name, department: f.department, email: f.email, phone: f.phone || profile.phone, degBranch: f.department }; 
+      } else {
+         return { name: f.name, email: f.email, phone: f.phone, degBranch: f.department, department: f.department, profileComplete: false };
+      }
+    });
+
+    res.status(200).json(merged);
   } catch (error) {
     console.error("Error fetching faculty data:", error);
     res.status(500).json({ error: "Server error" });
@@ -539,11 +608,11 @@ app.get("/api/faculty/:id", async (req, res) => {
     const faculty = await FacultyProfile.findById(req.params.id)
       .select('-__v')
       .lean();
-      
+
     if (!faculty) {
       return res.status(404).json({ error: "Faculty not found" });
     }
-    
+
     res.status(200).json(faculty);
   } catch (error) {
     console.error("Error fetching faculty details:", error);
@@ -554,17 +623,30 @@ app.get("/api/faculty/:id", async (req, res) => {
 app.get("/api/faculty-documents", async (req, res) => {
   try {
     const { department } = req.query;
-    let query = {};
+    let query = { role: "faculty" };
     
-    if (department) {
-      query.degBranch = { $regex: new RegExp(department, 'i') };
+    if (department && department !== 'all') {
+      query.department = { $regex: new RegExp(department, 'i') };
     }
 
-    const faculty = await FacultyProfile.find(query)
-      .select('name email degBranch photoPath certsPaths awardsCertPaths researchPapers conferenceCerts')
-      .lean();
+    // Fetch registered faculty
+    const registeredFaculty = await Faculty.find(query).select('name email phone department').lean();
+    
+    // Fetch their profiles
+    const emails = registeredFaculty.map(f => f.email);
+    const profiles = await FacultyProfile.find({ email: { $in: emails } }).lean();
+    
+    // Merge
+    const merged = registeredFaculty.map(f => {
+      const profile = profiles.find(p => p.email === f.email);
+      if (profile) {
+         return { ...profile, profileComplete: true, name: f.name, department: f.department, email: f.email, phone: f.phone || profile.phone, degBranch: f.department }; 
+      } else {
+         return { name: f.name, email: f.email, phone: f.phone, degBranch: f.department, department: f.department, profileComplete: false };
+      }
+    });
 
-    res.status(200).json(faculty);
+    res.status(200).json(merged);
   } catch (error) {
     console.error("Error fetching faculty documents:", error);
     res.status(500).json({ error: "Server error" });
@@ -575,7 +657,7 @@ app.get("/api/research-papers", async (req, res) => {
   try {
     const { department } = req.query;
     let query = {};
-    
+
     if (department) {
       query.degBranch = { $regex: new RegExp(department, 'i') };
     }

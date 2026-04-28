@@ -1,58 +1,51 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>FACULTECH Login</title>
+  <!-- Add Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Add Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
   <style>
+    .navbar {
+      background: rgb(2, 55, 120);
+      padding: 15px;
+      z-index: 1000;
+    }
 
+    .navbar-brand {
+      font-size: 24px;
+      font-weight: bold;
+      color: white !important;
+    }
 
+    .nav-link,
+    .login-btn {
+      color: white !important;
+      padding-right: 10px;
+      margin-right: 10px;
+    }
 
-
-        .navbar {
-            background-color: #2e2c50; /* Dark blue-purple from your image */
-            padding: 15px 30px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: Arial, sans-serif;
-        }
-        
-        .navbar-brand {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            text-decoration: none;
-        }
-        
-        .nav-links {
-            display: flex;
-            gap: 20px;
-            align-items: center;
-        }
-        
-        .nav-link {
-            color: white;
-            text-decoration: none;
-            font-size: 16px;
-        }
-        
-        .login-btn {
-            background-color: #3498DB; /* Blue button color from your image */
-            color: white;
-            padding: 8px 15px;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 16px;
-        }
     * {
-      margin: 0; padding: 0; box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
       font-family: 'Segoe UI', sans-serif;
     }
 
     body {
-      background: linear-gradient(135deg,white, white);
+      background: linear-gradient(135deg, white, white);
       min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      padding: 0;
+    }
+
+    .wrapper {
+      flex: 1;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -72,11 +65,19 @@
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.96); }
-      to { opacity: 1; transform: scale(1); }
+      from {
+        opacity: 0;
+        transform: scale(0.96);
+      }
+
+      to {
+        opacity: 1;
+        transform: scale(1);
+      }
     }
 
-    .left-panel, .right-panel {
+    .left-panel,
+    .right-panel {
       flex: 1 1 400px;
       padding: 50px;
       transition: all 0.3s ease-in-out;
@@ -212,12 +213,22 @@
       .container {
         flex-direction: column;
       }
-      .right-panel, .left-panel {
+
+      .right-panel,
+      .left-panel {
         padding: 35px 25px;
       }
     }
+
+    .active-nav {
+      text-decoration: underline !important;
+      text-underline-offset: 6px;
+      font-weight: 900;
+      border-bottom: 2px solid white;
+    }
   </style>
 </head>
+
 <body>
 
 
@@ -229,33 +240,50 @@
 
 
 
-  <!-- <nav class="navbar">
-    <a href="HOMEPAGE.html" class="navbar-brand">FaculTech</a>
-    <div class="nav-links">
-        <a href="ABOUTUS.html" class="nav-link">About Us</a>
-        <a href="LOGIN.html" class="login-btn">Login</a>
-        <a href="REGISTER.html" class="login-btn">Register</a>
-    </div> -->
-<!-- </nav> -->
-  <div class="container">
-    <!-- Left Panel: Login Form -->
-    <div class="left-panel">
-      <h2 id="form-title">Welcome</h2>
-      <form id="loginForm">
-        <div id="form-content">
-          <p>Select a role to begin.</p>
-        </div>
-      </form>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="HOME.html">FaculTech👨‍🎓</a>
+      <div class="collapse navbar-collapse justify-content-end">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="btn btn-success login-btn " href="HOME.html">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-success login-btn " href="REGISTERPAGE.html">Register</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-success login-btn active-nav" href="LOGIN.html">Login</a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-success login-btn " href="ABOUTUS.html">About Us</a>
+          </li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <!-- Right Panel: Role Quick Links -->
-    <div class="right-panel">
-      <h1>Welcome to FACULTECH</h1>
-      <p>Choose your role to access features</p>
-      <div class="role-buttons">
-        <button onclick="showForm('Admin')">Admin</button>
-        <button onclick="showForm('Faculty')">Faculty</button>
-        <button onclick="showForm('HOD')">HOD</button>
+  <div class="wrapper">
+    <div class="container">
+      <!-- Left Panel: Login Form -->
+      <div class="left-panel">
+        <h2 id="form-title">Welcome</h2>
+        <form id="loginForm">
+          <div id="form-content">
+            <p>Select a role to begin.</p>
+          </div>
+        </form>
+      </div>
+
+      <!-- Right Panel: Role Quick Links -->
+      <div class="right-panel">
+        <h1>Welcome to FACULTECH</h1>
+        <p>Choose your role to access features</p>
+        <div class="role-buttons">
+          <button onclick="showForm('Admin')">Admin</button>
+          <button onclick="showForm('Faculty')">Faculty</button>
+          <button onclick="showForm('HOD')">HOD</button>
+        </div>
       </div>
     </div>
   </div>
@@ -314,7 +342,7 @@
       }
 
       try {
-        const response = await fetch("http://localhost:5000/forgot-password", {
+        const response = await fetch("/forgot-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email })
@@ -336,7 +364,7 @@
     function showOTPVerification() {
       const formTitle = document.getElementById("form-title");
       const formContent = document.getElementById("form-content");
-      
+
       formTitle.innerText = "Verify OTP";
       formContent.innerHTML = `
         <p style="margin-bottom: 15px;">We sent a 6-digit code to ${forgotPasswordEmail}</p>
@@ -349,27 +377,27 @@
         </div>
       `;
     }
-    
+
     async function verifyOTP() {
       const otp = document.getElementById("otp").value;
-      
+
       if (!otp || otp.length !== 6) {
         showMessage('Please enter a valid 6-digit OTP', 'error');
         return;
       }
 
       try {
-        const response = await fetch("http://localhost:5000/verify-otp", {
+        const response = await fetch("/verify-otp", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             email: forgotPasswordEmail,
-            otp 
+            otp
           })
         });
-        
+
         const data = await response.json();
-        
+
         if (response.ok) {
           verifiedOTP = otp;
           showResetPasswordForm();
@@ -386,7 +414,7 @@
     function showResetPasswordForm() {
       const formTitle = document.getElementById("form-title");
       const formContent = document.getElementById("form-content");
-      
+
       formTitle.innerText = "Reset Password";
       formContent.innerHTML = `
         <input type="hidden" id="verifiedOTP" value="${verifiedOTP}" />
@@ -407,7 +435,7 @@
       const newPassword = document.getElementById("newPassword").value;
       const confirmPassword = document.getElementById("confirmPassword").value;
       const otp = document.getElementById("verifiedOTP").value;
-      
+
       if (!newPassword || !confirmPassword) {
         showMessage('Please fill in all fields', 'error');
         return;
@@ -419,10 +447,10 @@
       }
 
       try {
-        const response = await fetch("http://localhost:5000/reset-password", {
+        const response = await fetch("/reset-password", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             email: forgotPasswordEmail,
             otp,
             newPassword,
@@ -431,7 +459,7 @@
         });
 
         const data = await response.json();
-        
+
         if (response.ok) {
           showMessage(data.message, 'success');
           setTimeout(() => showForm(currentRole), 2000);
@@ -447,15 +475,15 @@
     function showMessage(message, type) {
       const formContent = document.getElementById("form-content");
       const existingMessage = formContent.querySelector('.message');
-      
+
       if (existingMessage) {
         existingMessage.remove();
       }
-      
+
       const messageDiv = document.createElement('div');
       messageDiv.className = `message ${type}`;
       messageDiv.textContent = message;
-      
+
       formContent.prepend(messageDiv);
       setTimeout(() => messageDiv.remove(), 5000);
     }
@@ -463,11 +491,11 @@
     async function adminLogin() {
       const username = document.getElementById("adminUsername").value;
       const password = document.getElementById("adminPassword").value;
-     
+
       // Check if admin credentials match
       if (username === "admin" && password === "admin123") {
         // Redirect to admin dashboard
-        window.location.href = "ADMINDASHBOARD.html";  
+        window.location.href = "ADMINDASHBOARD.html";
       } else {
         showMessage("Invalid Admin credentials. Please try again.", 'error');
       }
@@ -478,12 +506,12 @@
       const password = document.getElementById("hodPassword").value;
 
       try {
-        const res = await fetch("http://localhost:5000/login", {
+        const res = await fetch("/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ 
+          body: JSON.stringify({
             email: username + "@hod.com",
-            password 
+            password
           })
         });
 
@@ -508,7 +536,7 @@
       const password = document.getElementById("facultyPassword").value;
 
       try {
-        const res = await fetch("http://localhost:5000/login", {
+        const res = await fetch("/login", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ email, password })
@@ -518,12 +546,12 @@
         if (res.ok) {
           // Store email in localStorage
           localStorage.setItem('facultyEmail', email);
-          
+
           if (data.hasProfile) {
-            
+
             window.location.href = "FACULTYDASHBOARD.html";
           } else {
-            
+
             window.location.href = "FACULTYDASHBOARD.html?new=true";
           }
         } else {
@@ -535,4 +563,5 @@
     }   
   </script>
 </body>
+
 </html>

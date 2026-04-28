@@ -280,9 +280,9 @@
       <button id="editProfileBtn" class="btn">
         <i class="fas fa-edit"></i> Edit Profile
       </button>
-      <!-- <button id="downloadProfileBtn" class="btn" style="background: #4caf50; margin-left: 10px;">
-        <i class="fas fa-download"></i> Download Profile
-      </button> -->
+      <button id="downloadProfileBtn" class="btn" style="background: #4caf50; margin-left: 10px;">
+        <i class="fas fa-print"></i> Print / Save PDF
+      </button>
       <button id="logoutBtn" class="btn" style="background: #f44336; margin-left: 10px;">
         <i class="fas fa-sign-out-alt"></i> Logout
       </button>
@@ -524,7 +524,7 @@
     const editProfileBtn = document.getElementById('editProfileBtn');
     const logoutBtn = document.getElementById('logoutBtn');
     const backToDashboard = document.getElementById('backToDashboard');
-    // const downloadProfileBtn = document.getElementById('downloadProfileBtn');
+    const downloadProfileBtn = document.getElementById('downloadProfileBtn');
 
     // Initialize the page
     document.addEventListener('DOMContentLoaded', async () => {
@@ -542,7 +542,7 @@
         showProfileForm();
       } else {
         try {
-          const response = await fetch(`http://localhost:5000/api/faculty/${facultyEmail}`);
+          const response = await fetch(`/api/faculty/${facultyEmail}`);
           if (!response.ok) {
             throw new Error(`Failed to fetch profile: ${response.status} ${response.statusText}`);
           }
@@ -566,7 +566,7 @@
 
     // Event Listeners
     editProfileBtn.addEventListener('click', showProfileForm);
-    // downloadProfileBtn.addEventListener('click', downloadProfileAsPDF);
+    downloadProfileBtn.addEventListener('click', downloadProfileAsPDF);
     logoutBtn.addEventListener('click', () => {
       localStorage.removeItem('facultyEmail');
       window.location.href = 'LOGIN.html';
@@ -583,7 +583,7 @@
       dashboardContainer.style.display = 'block';
 
       try {
-        const response = await fetch(`http://localhost:5000/api/faculty/${facultyEmail}`);
+        const response = await fetch(`/api/faculty/${facultyEmail}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch profile: ${response.status} ${response.statusText}`);
         }
@@ -621,7 +621,7 @@
         <div class="profile-info" style="width: 100%">
           ${profile.photoPath ? 
             `<div class="profile-container">
-              <img src="http://localhost:5000/${profile.photoPath}">
+              <img src="/${profile.photoPath}">
             </div>` : 
             `<div class="profile-container" style="background: #eee; display: flex; align-items: center; justify-content: center;">
               <i class="fas fa-user" style="font-size: 50px; color: #aaa;"></i>
@@ -636,19 +636,19 @@
           <p><strong>Phone:</strong> ${profile.phone ? `+91 ${profile.phone}` : 'Not provided'}</p>
           <p><strong>Gender:</strong> ${profile.gender || 'Not provided'}</p>
           <p><strong>Aadhar:</strong> ${profile.aadhar || 'Not provided'} 
-            ${profile.aadharPath ? `<a href="http://localhost:5000/${profile.aadharPath}" class="certificate-link" download>Download Aadhar</a>` : ''}</p>
+            ${profile.aadharPath ? `<a href="/${profile.aadharPath}" class="certificate-link" download>Download Aadhar</a>` : ''}</p>
           <p><strong>PAN:</strong> ${profile.pan || 'Not provided'} 
-            ${profile.panPath ? `<a href="http://localhost:5000/${profile.panPath}" class="certificate-link" download>Download PAN</a>` : ''}</p>
+            ${profile.panPath ? `<a href="/${profile.panPath}" class="certificate-link" download>Download PAN</a>` : ''}</p>
         </div>
         
         <div class="profile-section" style="width: 100%">
           <h3><i class="fas fa-graduation-cap"></i> Education</h3>
           <p><strong>SSC (10th):</strong> ${profile.sscSchool || 'Not provided'} (${profile.sscBoard || 'Not provided'}, ${profile.sscPercent || 'N/A'}%, ${profile.sscYear || 'N/A'})
-            ${profile.sscCertificatePath ? `<a href="http://localhost:5000/${profile.sscCertificatePath}" class="certificate-link" download>Download SSC Certificate</a>` : ''}</p>
+            ${profile.sscCertPath ? `<a href="/${profile.sscCertPath}" class="certificate-link" download>Download SSC Certificate</a>` : ''}</p>
           <p><strong>Intermediate:</strong> ${profile.interCollege || 'Not provided'} (${profile.interPercent || 'N/A'}%, ${profile.interYear || 'N/A'})
-            ${profile.interCertificatePath ? `<a href="http://localhost:5000/${profile.interCertificatePath}" class="certificate-link" download>Download Intermediate Certificate</a>` : ''}</p>
+            ${profile.interCertPath ? `<a href="/${profile.interCertPath}" class="certificate-link" download>Download Intermediate Certificate</a>` : ''}</p>
           <p><strong>Degree:</strong> ${profile.degCollege || 'Not provided'} (${profile.degBranch || 'Not provided'}, ${profile.degCGPA || 'N/A'} CGPA, ${profile.degYear || 'N/A'})
-            ${profile.degCertificatePath ? `<a href="http://localhost:5000/${profile.degCertificatePath}" class="certificate-link" download>Download Degree Certificate</a>` : ''}</p>
+            ${profile.degCertPath ? `<a href="/${profile.degCertPath}" class="certificate-link" download>Download Degree Certificate</a>` : ''}</p>
           ${profile.phdStatus ? `<p><strong>PhD:</strong> ${profile.phdStatus} ${profile.phdDetails ? `- ${profile.phdDetails}` : ''}</p>` : '<p><strong>PhD:</strong> Not provided</p>'}
         </div>
         
@@ -656,19 +656,19 @@
           <h3><i class="fas fa-briefcase"></i> Professional Experience</h3>
           <p><strong>Total Experience:</strong> ${profile.experience || 0} years</p>
           ${profile.awards ? `<p><strong>Awards:</strong> ${profile.awards}</p>` : '<p><strong>Awards:</strong> None</p>'}
-          ${profile.awardsPaths && profile.awardsPaths.length > 0 ? `
+          ${profile.awardsCertPaths && profile.awardsCertPaths.length > 0 ? `
             <p><strong>Award Certificates:</strong> 
-              ${profile.awardsPaths.map((path, index) => `<a href="http://localhost:5000/${path}" class="certificate-link" download>Download Award ${index + 1}</a>`).join(' ')}
+              ${profile.awardsCertPaths.map((path, index) => `<a href="/${path}" class="certificate-link" download>Download Award ${index + 1}</a>`).join(' ')}
             </p>` : ''}
           ${profile.certs ? `<p><strong>Certifications:</strong> ${profile.certs}</p>` : '<p><strong>Certifications:</strong> None</p>'}
           ${profile.certsPaths && profile.certsPaths.length > 0 ? `
             <p><strong>Certification Documents:</strong> 
-              ${profile.certsPaths.map((path, index) => `<a href="http://localhost:5000/${path}" class="certificate-link" download>Download Certification ${index + 1}</a>`).join(' ')}
+              ${profile.certsPaths.map((path, index) => `<a href="/${path}" class="certificate-link" download>Download Certification ${index + 1}</a>`).join(' ')}
             </p>` : ''}
           ${profile.research ? `<p><strong>Research Papers:</strong> ${profile.research}</p>` : '<p><strong>Research Papers:</strong> None</p>'}
-          ${profile.researchPaths && profile.researchPaths.length > 0 ? `
+          ${profile.researchPapers && profile.researchPapers.length > 0 ? `
             <p><strong>Research Papers:</strong> 
-              ${profile.researchPaths.map((path, index) => `<a href="http://localhost:5000/${path}" class="certificate-link" download>Download Paper ${index + 1}</a>`).join(' ')}
+              ${profile.researchPapers.map((path, index) => `<a href="/${path}" class="certificate-link" download>Download Paper ${index + 1}</a>`).join(' ')}
             </p>` : ''}
         </div>
         
@@ -677,8 +677,8 @@
           <h3><i class="fas fa-users"></i> Conferences</h3>
           ${profile.conferences.map((conf, index) => `
             <p><strong>${conf.type || 'Not provided'}:</strong> ${conf.name || 'Not provided'} (Organized by: ${conf.organizedBy || 'Not provided'}) ${conf.isbn ? `ISBN: ${conf.isbn}` : ''}
-              ${profile.conferenceCertificatePaths && profile.conferenceCertificatePaths[index] ? 
-                `<a href="http://localhost:5000/${profile.conferenceCertificatePaths[index]}" class="certificate-link" download>Download Certificate</a>` : ''}
+              ${profile.conferenceCerts && profile.conferenceCerts[index] ? 
+                `<a href="/${profile.conferenceCerts[index]}" class="certificate-link" download>Download Certificate</a>` : ''}
             </p>
           `).join('')}
         </div>` : '<div class="profile-section" style="width: 100%"><h3><i class="fas fa-users"></i> Conferences</h3><p>None</p></div>'}
@@ -687,7 +687,7 @@
 
     async function loadProfileData(email) {
       try {
-        const response = await fetch(`http://localhost:5000/api/faculty/${email}`);
+        const response = await fetch(`/api/faculty/${email}`);
         if (!response.ok) {
           throw new Error(`Failed to fetch profile: ${response.status} ${response.statusText}`);
         }
@@ -699,6 +699,35 @@
         
         if (data.exists) {
           populateForm(data.profile);
+        } else {
+          // Pre-fill from registration data if it exists
+          try {
+            const userResponse = await fetch(`/api/faculty-user/${email}`);
+            if (userResponse.ok) {
+              const userData = await userResponse.json();
+              document.getElementById('name').value = userData.name || '';
+              document.getElementById('email').value = userData.email || email;
+              document.getElementById('phone').value = userData.phone || '';
+              if (userData.department) {
+                document.getElementById('degBranch').value = userData.department;
+              }
+              // Make fields readonly as they are imported from registration
+              ['name', 'email', 'phone', 'degBranch'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) {
+                  el.readOnly = true;
+                  el.style.backgroundColor = '#f0f0f0';
+                  el.style.cursor = 'not-allowed';
+                  // if it's a select dropdown, we can disable pointer events
+                  if (el.tagName === 'SELECT') {
+                    el.style.pointerEvents = 'none';
+                  }
+                }
+              });
+            }
+          } catch (e) {
+            console.error('Error pre-filling registration data', e);
+          }
         }
       } catch (error) {
         console.error('Error loading profile:', error);
@@ -711,6 +740,16 @@
     document.getElementById('dob').value = profile.dob ? new Date(profile.dob).toISOString().split('T')[0] : '';
     document.getElementById('email').value = profile.email || '';
     document.getElementById('phone').value = profile.phone || '';
+
+    // Make core fields readonly as they must match registration
+    ['name', 'email', 'phone'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el) {
+        el.readOnly = true;
+        el.style.backgroundColor = '#f0f0f0';
+        el.style.cursor = 'not-allowed';
+      }
+    });
     document.getElementById('gender').value = profile.gender || '';
     document.getElementById('aadhar').value = profile.aadhar || '';
     document.getElementById('pan').value = profile.pan || '';
@@ -723,6 +762,17 @@
     document.getElementById('interYear').value = profile.interYear || '';
     document.getElementById('degCollege').value = profile.degCollege || '';
     document.getElementById('degBranch').value = profile.degBranch || '';
+    
+    // Make degBranch readonly
+    const degBranchEl = document.getElementById('degBranch');
+    if (degBranchEl) {
+      degBranchEl.readOnly = true;
+      degBranchEl.style.backgroundColor = '#f0f0f0';
+      degBranchEl.style.cursor = 'not-allowed';
+      if (degBranchEl.tagName === 'SELECT') {
+        degBranchEl.style.pointerEvents = 'none';
+      }
+    }
     document.getElementById('degCGPA').value = profile.degCGPA || '';
     document.getElementById('degYear').value = profile.degYear || '';
     document.getElementById('phdStatus').value = profile.phdStatus || '';
@@ -735,7 +785,7 @@
     // Show existing photo
     if (profile.photoPath) {
       const img = document.createElement('img');
-      img.src = `http://localhost:5000/${profile.photoPath}`;
+      img.src = `/${profile.photoPath}`;
       img.style.width = '100px';
       img.style.height = '100px';
       img.style.objectFit = 'cover';
@@ -786,7 +836,7 @@
     const container = document.getElementById(inputId).parentNode;
     const existingDiv = document.createElement('div');
     existingDiv.className = 'existing-file';
-    existingDiv.innerHTML = `<strong>Existing ${label}:</strong> <a href="http://localhost:5000/${filePath}" target="_blank">View/Download</a>`;
+    existingDiv.innerHTML = `<strong>Existing ${label}:</strong> <a href="/${filePath}" target="_blank">View/Download</a>`;
     container.appendChild(existingDiv);
   }
 
@@ -799,7 +849,7 @@
     
     let links = [];
     filePaths.forEach((path, index) => {
-      links.push(`<a href="http://localhost:5000/${path}" target="_blank">${label} ${index+1}</a>`);
+      links.push(`<a href="/${path}" target="_blank">${label} ${index+1}</a>`);
     });
     
     existingDiv.innerHTML = `<strong>Existing ${label}s:</strong> ${links.join(', ')}`;
@@ -992,7 +1042,7 @@
         submitBtn.disabled = true;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
 
-        const response = await fetch('http://localhost:5000/api/faculty', {
+        const response = await fetch('/api/faculty', {
           method: 'POST',
           body: formData
         });
@@ -1149,7 +1199,8 @@
           scrollY: 0,
           useCORS: true,
           allowTaint: true,
-          letterRendering: true
+          letterRendering: true,
+          backgroundColor: '#ffffff'
         },
         jsPDF: { 
           unit: 'mm', 

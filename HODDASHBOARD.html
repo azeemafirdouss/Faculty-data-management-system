@@ -1,6 +1,6 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -77,7 +77,8 @@
       transition: all 0.2s;
     }
 
-    .nav-link:hover, .nav-link.active {
+    .nav-link:hover,
+    .nav-link.active {
       background-color: var(--bg);
       color: var(--primary);
     }
@@ -207,7 +208,8 @@
       font-weight: 600;
     }
 
-    .search-input, .select-input {
+    .search-input,
+    .select-input {
       padding: 0.5rem 1rem;
       border: 1px solid var(--border);
       border-radius: 0.375rem;
@@ -226,7 +228,8 @@
       border-collapse: collapse;
     }
 
-    th, td {
+    th,
+    td {
       padding: 1rem;
       text-align: left;
     }
@@ -487,19 +490,19 @@
       .sidebar {
         transform: translateX(-100%);
       }
-      
+
       .sidebar.open {
         transform: translateX(0);
       }
-      
+
       .main-content {
         margin-left: 0;
       }
-      
+
       .menu-toggle {
         display: block;
       }
-      
+
       .content-grid {
         grid-template-columns: 1fr;
       }
@@ -518,10 +521,15 @@
     .animate-spin {
       animation: spin 1s linear infinite;
     }
-    
+
     @keyframes spin {
-      from { transform: rotate(0deg); }
-      to { transform: rotate(360deg); }
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(360deg);
+      }
     }
 
     /* Section visibility control */
@@ -534,6 +542,7 @@
     }
   </style>
 </head>
+
 <body>
   <!-- Sidebar Navigation -->
   <aside class="sidebar" id="sidebar">
@@ -543,7 +552,8 @@
     <ul class="nav-menu">
       <li class="nav-item">
         <a href="#" class="nav-link active" data-section="dashboard">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
             <polyline points="9 22 9 12 15 12 15 22"></polyline>
           </svg>
@@ -552,7 +562,8 @@
       </li>
       <li class="nav-item">
         <a href="#" class="nav-link" data-section="faculty">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
             <circle cx="9" cy="7" r="4"></circle>
             <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
@@ -561,18 +572,11 @@
           Faculty
         </a>
       </li>
-      <li class="nav-item">
-        <a href="#" class="nav-link" data-section="research">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"></path>
-            <path d="M10 2c1 .5 2 2 2 5"></path>
-          </svg>
-          Research
-        </a>
-      </li>
+
       <li class="nav-item">
         <a href="#" class="nav-link" data-section="reports">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
             <polyline points="14 2 14 8 20 8"></polyline>
             <line x1="16" y1="13" x2="8" y2="13"></line>
@@ -582,7 +586,28 @@
           Reports
         </a>
       </li>
-      
+      <li class="nav-item">
+        <a href="#" class="nav-link" data-section="grievances">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"></circle>
+            <line x1="12" y1="8" x2="12" y2="12"></line>
+            <line x1="12" y1="16" x2="12.01" y2="16"></line>
+          </svg>
+          Grievances
+        </a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link text-danger" id="logoutBtn">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+            <polyline points="16 17 21 12 16 7"></polyline>
+            <line x1="21" y1="12" x2="9" y2="12"></line>
+          </svg>
+          Logout
+        </a>
+      </li>
     </ul>
   </aside>
 
@@ -594,10 +619,10 @@
       <div class="header-actions">
         <div class="date-display" id="current-date"></div>
         <div class="header-profile" id="profile-btn">
-          <div class="profile-avatar-small">HJ</div>
+          <div class="profile-avatar-small" id="hodAvatar">HOD</div>
           <div class="profile-info-small">
-            <div class="profile-name">Prof. Henry Johnson</div>
-            <div class="profile-role">HOD</div>
+            <div class="profile-name" id="hodName">HOD User</div>
+            <div class="profile-role" id="hodRole">HOD</div>
           </div>
         </div>
       </div>
@@ -639,23 +664,6 @@
         </div>
       </section>
 
-      <div class="content-grid">
-        <div class="left-column">
-          <section class="research-section">
-            <div class="section-header">
-              <h2>Research Activities</h2>
-              <select id="research-period" class="select-input">
-                <option value="year">This Year</option>
-                <option value="semester">This Semester</option>
-                <option value="all">All Time</option>
-              </select>
-            </div>
-            <div class="chart-container">
-              <canvas id="research-chart"></canvas>
-            </div>
-          </section>
-        </div>
-      </div>
     </div>
 
     <!-- Faculty Content -->
@@ -666,7 +674,8 @@
           <div class="search-container">
             <input type="text" id="faculty-search" placeholder="Search faculty..." class="search-input">
             <button class="download-btn" id="download-btn">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
                 <polyline points="7 10 12 15 17 10"></polyline>
                 <line x1="12" y1="15" x2="12" y2="3"></line>
@@ -693,30 +702,56 @@
       </section>
     </div>
 
-    <!-- Research Content -->
-    <div id="research-content" class="content-section">
-      <div class="graphs-section">
-        <div class="graph-card">
-          <h3>Research Publications</h3>
-          <div class="graph-container">
-            <canvas id="publications-chart"></canvas>
-          </div>
+    <div id="reports-content" class="content-section">
+      <div class="chart-container" style="background: white; padding: 20px; border-radius: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #f0f0f0; padding-bottom: 15px; margin-bottom: 20px;">
+          <h2><i class="fas fa-file-alt" style="color: var(--primary); margin-right: 10px;"></i> Department Reports</h2>
+          <button id="download-report-btn" class="btn btn-primary" onclick="window.print()" style="padding: 10px 20px; background: var(--primary); color: white; border: none; border-radius: 6px; cursor: pointer;">
+            <i class="fas fa-print"></i> Print Report
+          </button>
         </div>
-        <div class="graph-card">
-          <h3>Conference Participation</h3>
-          <div class="graph-container">
-            <canvas id="conferences-chart"></canvas>
-          </div>
+        
+        <div class="faculty-table-container">
+          <table id="reports-table">
+            <thead>
+              <tr>
+                <th>Faculty Name</th>
+                <th>Research Papers</th>
+                <th>Awards</th>
+                <th>Certificates</th>
+                <th>Conference Certifications</th>
+              </tr>
+            </thead>
+            <tbody id="reports-table-body">
+              <!-- Filled by JavaScript -->
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
 
-    <!-- Reports Content -->
-    <div id="reports-content" class="content-section">
-      <div class="chart-container">
-        <h2>Reports Section</h2>
-        <p>This section will contain various reports.</p>
-      </div>
+    <!-- Grievances Content -->
+    <div id="grievances-content" class="content-section">
+      <section class="faculty-section">
+        <div class="section-header">
+          <h2>Department Grievances</h2>
+        </div>
+        <div class="faculty-table-container">
+          <table id="grievances-table">
+            <thead>
+              <tr>
+                <th>Faculty Name</th>
+                <th>Email</th>
+                <th>Date Submitted</th>
+                <th>Grievance Details</th>
+              </tr>
+            </thead>
+            <tbody id="grievances-table-body">
+              <!-- Filled by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </section>
     </div>
 
     <!-- Settings Content -->
@@ -744,17 +779,17 @@
       <span class="close-btn">&times;</span>
       <div class="profile-section">
         <div class="profile-header">
-          <div class="profile-avatar">HJ</div>
+          <div class="profile-avatar" id="modalHodAvatar">HJ</div>
           <div class="profile-info">
-            <h3>Prof. Henry Johnson</h3>
+            <h3 id="modalHodName">Prof. Henry Johnson</h3>
             <p>Head of Department</p>
-            <p>Computer Science</p>
+            <p id="modalHodDept">Computer Science</p>
           </div>
         </div>
         <div class="profile-details">
           <div class="detail-item">
             <span class="detail-label">Email</span>
-            <span class="detail-value">h.johnson@university.edu</span>
+            <span class="detail-value" id="modalHodEmail">h.johnson@university.edu</span>
           </div>
           <div class="detail-item">
             <span class="detail-label">Phone</span>
@@ -774,14 +809,80 @@
   </div>
 
   <script>
-    // Sample Data
-    const facultyData = [
-      { id: 1, name: "Dr. Sarah Johnson", designation: "Professor", email: "s.johnson@uni.edu", performance: 4.8, department: "Computer Science", phone: "+1 (555) 123-4567", joinDate: "2015-08-15", research: 12, teachingScore: 4.9, adminScore: 4.5, teachingHours: 12 },
-      { id: 2, name: "Prof. Michael Chen", designation: "Associate Professor", email: "m.chen@uni.edu", performance: 4.2, department: "Mathematics", phone: "+1 (555) 234-5678", joinDate: "2018-03-22", research: 8, teachingScore: 4.3, adminScore: 3.9, teachingHours: 15 },
-      { id: 3, name: "Dr. Emily Wilson", designation: "Assistant Professor", email: "e.wilson@uni.edu", performance: 3.9, department: "Physics", phone: "+1 (555) 345-6789", joinDate: "2020-01-10", research: 5, teachingScore: 4.1, adminScore: 3.5, teachingHours: 18 },
-      { id: 4, name: "Prof. David Brown", designation: "Professor", email: "d.brown@uni.edu", performance: 4.5, department: "Chemistry", phone: "+1 (555) 456-7890", joinDate: "2012-09-05", research: 18, teachingScore: 4.6, adminScore: 4.3, teachingHours: 10 },
-      { id: 5, name: "Dr. Jessica Lee", designation: "Associate Professor", email: "j.lee@uni.edu", performance: 4.1, department: "Biology", phone: "+1 (555) 567-8901", joinDate: "2017-11-18", research: 9, teachingScore: 4.2, adminScore: 3.8, teachingHours: 14 }
-    ];
+    // Dynamic Data
+    let facultyData = [];
+
+    async function fetchFacultyData() {
+      try {
+        const department = localStorage.getItem('hodDepartment') || '';
+        const res = await fetch(`/api/faculty-documents?department=${department}`);
+        if (res.ok) {
+          const data = await res.json();
+          facultyData = data.map((f, i) => ({
+            id: i + 1,
+            name: f.name || 'Unknown',
+            designation: "Faculty",
+            email: f.email || 'Not provided',
+            performance: Math.round((3.8 + Math.random() * 1.2) * 10) / 10,
+            department: f.degBranch || department,
+            phone: f.phone ? "+91 " + f.phone : "Not provided",
+            joinDate: "2020-01-01",
+            research: f.researchPapers ? f.researchPapers.length : 0,
+            researchPaths: f.researchPapers || [],
+            awardsCount: f.awardsCertPaths ? f.awardsCertPaths.length : 0,
+            awardsPaths: f.awardsCertPaths || [],
+            certsCount: f.certsPaths ? f.certsPaths.length : 0,
+            certsPaths: f.certsPaths || [],
+            confCertsCount: f.conferenceCerts ? f.conferenceCerts.length : 0,
+            confCertsPaths: f.conferenceCerts || [],
+            teachingScore: Math.round((3.8 + Math.random() * 1.2) * 10) / 10,
+            adminScore: Math.round((3.5 + Math.random() * 1.5) * 10) / 10,
+            teachingHours: Math.floor(Math.random() * 8) + 8,
+            profileComplete: f.profileComplete !== undefined ? f.profileComplete : true
+          }));
+          initDashboard();
+        } else {
+          console.error("Failed to fetch faculty data:", await res.text());
+        }
+      } catch (err) {
+        console.error("Error fetching faculty data", err);
+      }
+    }
+
+    // Load Grievances
+    async function loadGrievances() {
+      try {
+        const hodDepartment = localStorage.getItem('hodDepartment');
+        if (!hodDepartment) return;
+
+        const response = await fetch(`/api/grievances?department=${hodDepartment}`);
+        const grievances = await response.json();
+
+        const tbody = document.getElementById('grievances-table-body');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+
+        if (grievances.length === 0) {
+          tbody.innerHTML = '<tr><td colspan="4" style="text-align: center;">No grievances found for this department.</td></tr>';
+          return;
+        }
+
+        grievances.forEach(g => {
+          const date = new Date(g.submittedAt).toLocaleDateString();
+          const tr = document.createElement('tr');
+          
+          tr.innerHTML = `
+            <td><strong>${g.facultyName}</strong></td>
+            <td>${g.facultyEmail}</td>
+            <td>${date}</td>
+            <td>${g.grievance}</td>
+          `;
+          tbody.appendChild(tr);
+        });
+      } catch (error) {
+        console.error('Error loading grievances:', error);
+      }
+    }
 
     // Research Data
     const researchData = {
@@ -837,24 +938,24 @@
       // Set current date
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
       currentDateEl.textContent = new Date().toLocaleDateString('en-US', options);
-      
+
       // Set stats
       totalFacultyEl.textContent = facultyData.length;
       const avgPerf = facultyData.reduce((sum, faculty) => sum + faculty.performance, 0) / facultyData.length;
       avgPerformanceEl.textContent = avgPerf.toFixed(1);
       const totalResearch = facultyData.reduce((sum, faculty) => sum + faculty.research, 0);
       totalResearchEl.textContent = totalResearch;
-      
+
       // Render faculty table
       renderFacultyTable(facultyData);
       
+      // Render reports table
+      renderReportsTable(facultyData);
+
       // Initialize charts
       initPerformanceDistributionChart();
       initWorkloadChart();
-      initResearchChart('year');
-      initPublicationsChart();
-      initConferencesChart();
-      
+
       // Set up event listeners
       setupEventListeners();
     }
@@ -862,7 +963,7 @@
     // Initialize Performance Distribution Chart
     function initPerformanceDistributionChart() {
       const ctx = document.getElementById('performance-distribution-chart').getContext('2d');
-      
+
       // Group faculty by performance ranges
       const performanceRanges = {
         '4.5-5.0': facultyData.filter(f => f.performance >= 4.5).length,
@@ -870,7 +971,7 @@
         '3.5-3.9': facultyData.filter(f => f.performance >= 3.5 && f.performance < 4.0).length,
         'Below 3.5': facultyData.filter(f => f.performance < 3.5).length
       };
-      
+
       performanceDistributionChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -916,12 +1017,12 @@
     // Initialize Workload Chart
     function initWorkloadChart() {
       const ctx = document.getElementById('workload-chart').getContext('2d');
-      
+
       // Prepare data for workload chart
       const facultyNames = facultyData.map(f => f.name.split(' ')[1]); // Last names only
       const teachingHours = facultyData.map(f => f.teachingHours);
       const researchCount = facultyData.map(f => f.research);
-      
+
       workloadChart = new Chart(ctx, {
         type: 'line',
         data: {
@@ -963,11 +1064,11 @@
     function initResearchChart(period) {
       const ctx = document.getElementById('research-chart').getContext('2d');
       const data = researchData[period];
-      
+
       if (researchChart) {
         researchChart.destroy();
       }
-      
+
       researchChart = new Chart(ctx, {
         type: 'bar',
         data: {
@@ -1004,11 +1105,11 @@
     // Initialize Publications Chart
     function initPublicationsChart() {
       const ctx = document.getElementById('publications-chart').getContext('2d');
-      
+
       publicationsChart = new Chart(ctx, {
         type: 'doughnut',
         data: {
-          labels: facultyData.map(f => f.name.split(' ')[1]),
+          labels: facultyData.map(f => f.name || 'Unknown'),
           datasets: [{
             label: 'Research Publications',
             data: facultyData.map(f => f.research),
@@ -1032,14 +1133,14 @@
     // Initialize Conferences Chart
     function initConferencesChart() {
       const ctx = document.getElementById('conferences-chart').getContext('2d');
-      
+
       // Sample conference data (not in original faculty data)
       const conferenceData = [5, 7, 3, 9, 6];
-      
+
       conferencesChart = new Chart(ctx, {
         type: 'polarArea',
         data: {
-          labels: facultyData.map(f => f.name.split(' ')[1]),
+          labels: facultyData.map(f => f.name || 'Unknown'),
           datasets: [{
             label: 'Conference Participation',
             data: conferenceData,
@@ -1064,35 +1165,71 @@
     function renderFacultyTable(faculty) {
       facultyTableBody.innerHTML = '';
       currentFilteredData = [...faculty]; // Update current filtered data
-      
+
       faculty.forEach(f => {
         const row = document.createElement('tr');
-        
+
         // Determine performance class
         let perfClass = 'performance-medium';
         if (f.performance >= 4.5) perfClass = 'performance-high';
         else if (f.performance < 3.5) perfClass = 'performance-low';
-        
+
         row.innerHTML = `
-          <td>${f.name}</td>
+          <td>
+            ${f.name}
+            ${!f.profileComplete ? '<br><span style="background:#f8d7da; color:#721c24; padding:2px 6px; border-radius:10px; font-size:10px; margin-top:4px; display:inline-block;">Pending Data</span>' : ''}
+          </td>
           <td>${f.designation}</td>
           <td><span class="performance-badge ${perfClass}">${f.performance.toFixed(1)}</span></td>
           <td><button class="action-btn" data-id="${f.id}">View Details</button></td>
         `;
-        
+
         facultyTableBody.appendChild(row);
       });
-      
+
       // Add event listeners to detail buttons
       document.querySelectorAll('.action-btn').forEach(btn => {
         btn.addEventListener('click', () => showFacultyDetails(btn.dataset.id));
       });
     }
 
+    // Render Reports Table
+    function renderReportsTable(faculty) {
+      const reportsTableBody = document.getElementById('reports-table-body');
+      if (!reportsTableBody) return;
+      reportsTableBody.innerHTML = '';
+
+      faculty.forEach(f => {
+        const row = document.createElement('tr');
+
+        row.innerHTML = `
+          <td><strong>${f.name}</strong></td>
+          <td>
+            ${f.research}<br>
+            ${f.researchPaths.map((p, i) => `<a href="/${p.replace(/\\/g, '/')}" target="_blank" style="font-size:0.8rem; color:var(--primary); text-decoration:underline;">View ${i+1}</a>`).join(' | ')}
+          </td>
+          <td>
+            ${f.awardsCount}<br>
+            ${f.awardsPaths.map((p, i) => `<a href="/${p.replace(/\\/g, '/')}" target="_blank" style="font-size:0.8rem; color:var(--primary); text-decoration:underline;">View ${i+1}</a>`).join(' | ')}
+          </td>
+          <td>
+            ${f.certsCount}<br>
+            ${f.certsPaths.map((p, i) => `<a href="/${p.replace(/\\/g, '/')}" target="_blank" style="font-size:0.8rem; color:var(--primary); text-decoration:underline;">View ${i+1}</a>`).join(' | ')}
+          </td>
+          <td>
+            ${f.confCertsCount}<br>
+            ${f.confCertsPaths.map((p, i) => `<a href="/${p.replace(/\\/g, '/')}" target="_blank" style="font-size:0.8rem; color:var(--primary); text-decoration:underline;">View ${i+1}</a>`).join(' | ')}
+          </td>
+        `;
+
+        reportsTableBody.appendChild(row);
+      });
+    }
+
     // Function to convert filtered data to CSV
     function convertToCSV(filteredData) {
       const headers = ["Name", "Designation", "Email", "Performance", "Department", "Phone", "Join Date", "Research Papers", "Teaching Score", "Admin Score", "Teaching Hours"];
-      
+
       const rows = filteredData.map(faculty => [
         "${faculty.name}",
         "${faculty.designation}",
@@ -1106,7 +1243,7 @@
         faculty.adminScore,
         faculty.teachingHours
       ]);
-      
+
       return [headers.join(','), ...rows.map(row => row.join(','))].join('\n');
     }
 
@@ -1115,11 +1252,11 @@
       const blob = new Blob([csvData], { type: 'text/csv;charset=utf-8;' });
       const link = document.createElement('a');
       const url = URL.createObjectURL(blob);
-      
+
       link.setAttribute('href', url);
       link.setAttribute('download', filename);
       link.style.visibility = 'hidden';
-      
+
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -1128,11 +1265,11 @@
     // Show Faculty Details
     function showFacultyDetails(id) {
       const faculty = facultyData.find(f => f.id === parseInt(id));
-      
+
       if (!faculty) return;
-      
+
       const initials = faculty.name.split(' ').map(n => n[0]).join('');
-      
+
       facultyDetailContent.innerHTML = `
         <div class="faculty-detail">
           <div class="faculty-avatar">${initials}</div>
@@ -1163,7 +1300,7 @@
           </div>
         </div>
       `;
-      
+
       facultyModal.style.display = 'block';
     }
 
@@ -1183,7 +1320,7 @@
       contentSections.forEach(section => {
         section.classList.remove('active');
       });
-      
+
       document.getElementById(sectionId + '-content').classList.add('active');
       pageTitle.textContent = sectionId.charAt(0).toUpperCase() + sectionId.slice(1) + (sectionId === 'dashboard' ? ' Dashboard' : '');
     }
@@ -1193,30 +1330,25 @@
       // Faculty search
       facultySearch.addEventListener('input', (e) => {
         const searchTerm = e.target.value.toLowerCase();
-        currentFilteredData = facultyData.filter(f => 
-          f.name.toLowerCase().includes(searchTerm) || 
+        currentFilteredData = facultyData.filter(f =>
+          f.name.toLowerCase().includes(searchTerm) ||
           f.designation.toLowerCase().includes(searchTerm) ||
           f.department.toLowerCase().includes(searchTerm)
         );
         renderFacultyTable(currentFilteredData);
       });
-      
+
       // Download button click
       downloadBtn.addEventListener('click', () => {
         const csvData = convertToCSV(currentFilteredData);
         downloadCSV(csvData);
       });
-      
-      // Research period change
-      researchPeriod.addEventListener('change', (e) => {
-        initResearchChart(e.target.value);
-      });
-      
+
       // Close modals
       closeBtns.forEach(btn => {
         btn.addEventListener('click', closeModal);
       });
-      
+
       // Close modal when clicking outside
       window.addEventListener('click', (e) => {
         if (e.target.classList.contains('modal')) {
@@ -1234,14 +1366,16 @@
 
       // Navigation links
       navLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
+        link.addEventListener('click', function (e) {
           e.preventDefault();
-          
+
+          if (this.id === 'logoutBtn') return; // Skip section switching for logout
+
           // Remove active class from all links
           navLinks.forEach(l => l.classList.remove('active'));
           // Add active class to clicked link
           this.classList.add('active');
-          
+
           const section = this.dataset.section;
           switchContent(section);
         });
@@ -1249,10 +1383,41 @@
     }
 
     // Initialize the dashboard when DOM is loaded
-    document.addEventListener('DOMContentLoaded', initDashboard);
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchFacultyData();
+      loadGrievances();
+
+      const dept = localStorage.getItem('hodDepartment') || 'Unknown';
+      
+      let hodFullName = 'HOD User';
+      let hodEmail = 'hod@university.edu';
+      
+      if (dept === 'CSE') { hodFullName = 'Azeema Firdous'; hodEmail = 'azeemafirdous@university.edu'; }
+      else if (dept === 'CSM') { hodFullName = 'Harshini'; hodEmail = 'harshini@university.edu'; }
+      else if (dept === 'CSD') { hodFullName = 'Soumya'; hodEmail = 'soumya@university.edu'; }
+      else if (dept === 'IT') { hodFullName = 'Harshitha'; hodEmail = 'harshitha@university.edu'; }
+
+      // Top right header profile info
+      document.getElementById('hodName').innerText = hodFullName;
+      document.getElementById('hodAvatar').innerText = dept.substring(0, 3);
+      document.getElementById('hodRole').innerText = 'HOD - ' + dept;
+      
+      // Modal profile info
+      if (document.getElementById('modalHodName')) document.getElementById('modalHodName').innerText = 'Prof. ' + hodFullName;
+      if (document.getElementById('modalHodDept')) document.getElementById('modalHodDept').innerText = dept;
+      if (document.getElementById('modalHodEmail')) document.getElementById('modalHodEmail').innerText = hodEmail;
+      if (document.getElementById('modalHodAvatar')) document.getElementById('modalHodAvatar').innerText = dept.substring(0, 3);
+
+      const logoutBtn = document.getElementById('logoutBtn');
+      if (logoutBtn) {
+        logoutBtn.addEventListener('click', (e) => {
+          e.preventDefault();
+          localStorage.clear();
+          window.location.href = 'LOGIN.html';
+        });
+      }
+    });
   </script>
 </body>
+
 </html>
-
-
-
